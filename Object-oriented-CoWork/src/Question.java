@@ -9,4 +9,6 @@ public abstract class Question {
 		this.content = content;
 		this.serialNumber = serialNumberGenerator++;
 	}
+	
+	public abstract boolean checkAnswer();
 }
