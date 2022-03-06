@@ -10,5 +10,5 @@ public abstract class Question {
 		this.serialNumber = serialNumberGenerator++;
 	}
 	
-	public abstract boolean checkAnswer();
+	
 }
