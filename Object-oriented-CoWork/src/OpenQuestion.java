@@ -9,5 +9,10 @@ public class OpenQuestion extends Question {
 	}
 
 	
-	
+	public String toString() {//To String - print;
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(super.toString() + answer.toString() + "\n");
+		
+		return sBuffer.toString();
+	}
 }

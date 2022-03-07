@@ -26,6 +26,15 @@ public class AmericanQuestions extends Question {
 	}
 	
 	
-	
+	public String toString() {//To String - print;
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(super.toString());
+		for(int i = 0; i < this.numOfAnswers; i++) {
+			sBuffer.append(allAnswers[i].toString() + "\n");
+			
+		}
+		
+		return sBuffer.toString();
+	}
 	
 }

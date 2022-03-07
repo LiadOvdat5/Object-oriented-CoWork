@@ -22,4 +22,12 @@ public class Answer {
 		return true;
 		
 	}
+	
+	
+	public String toString() { //To String - print answer;
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append("Answer: " + this.content + " | Answer is: " + this.isRight);
+		
+		return sBuffer.toString();
+	}
 }
