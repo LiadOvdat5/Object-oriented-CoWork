@@ -59,8 +59,35 @@ public class Exam {
 	}
 	
 	//update Q(A) content
+	//open Q answer
+	public boolean setOpenAnswer(String content, int qNum) { 
+		if(isContentExist(content) == -1)
+			return false;
+		OpenQuestion temp = (OpenQuestion)allQuestions[qNum -1];
+		return temp.updateAnswer(content);
+	}
+	
+	//American Q answer
+	public boolean setAmericanAnswer(String content, int qNum, int aNum) {
+		if(isContentExist(content) == -1)
+			return false;
+		AmericanQuestions temp = (AmericanQuestions)allQuestions[qNum -1];
+		return temp.updateAnswer(content, aNum);
+	}
+	
 	
 	//delete answer
+	//Delete American Question
+	public boolean deleteOpenAnswer(int qNum) {
+		OpenQuestion temp = (OpenQuestion)allQuestions[qNum -1];
+		return temp.deleteAnswer();
+	}
+	
+	//Delete American Question
+	public boolean deleteAmericanAnswer(int qNum,int aNum) {
+		AmericanQuestions temp = (AmericanQuestions)allQuestions[qNum -1];
+		return temp.deleteAnswer(aNum);
+	}
 	
 	//toString
 	public String toString() {//To String - print;

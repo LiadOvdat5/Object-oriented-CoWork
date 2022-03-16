@@ -25,12 +25,28 @@ public class AmericanQuestions extends Question {
 		
 	}
 	
+	//American Q answer update
+	public boolean updateAnswer(String content, int aNum) {
+		return allAnswers[aNum-1].setContent(content);
+	}
+	
+	
+	//Delete Answer
+		public boolean deleteAnswer(int aNum) {
+			for(int i = aNum-1; i < numOfAnswers-1; i++)
+				allAnswers[i] = allAnswers[i+1];
+			allAnswers[numOfAnswers-1] = null;
+			numOfAnswers--;
+			return true;
+			
+		}
 	
 	public String toString() {//To String - print;
 		StringBuffer sBuffer = new StringBuffer();
 		sBuffer.append(super.toString());
 		for(int i = 0; i < this.numOfAnswers; i++) {
-			sBuffer.append(allAnswers[i].toString() + "\n");
+			if(allAnswers[i] != null)
+				sBuffer.append(allAnswers[i].toString() + "\n");
 			
 		}
 		
