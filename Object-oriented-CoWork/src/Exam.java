@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public class Exam {
-	
+	String examName;
 	Question[] allQuestions;
 	int numOfQuestions;
 	
