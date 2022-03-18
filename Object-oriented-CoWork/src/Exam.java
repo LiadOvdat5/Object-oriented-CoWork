@@ -5,10 +5,14 @@ public class Exam {
 	Question[] allQuestions;
 	int numOfQuestions;
 	
-	public Exam() {
+	//C'tor for making exam without arguments.
+	public Exam(String name) {
 		allQuestions = new Question[1];
 		numOfQuestions = 0;
+		examName = name;
 	}
+	
+	
 	
 	//add Q
 	public boolean addQuestion(Question q) {

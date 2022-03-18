@@ -8,8 +8,9 @@ public class AmericanQuestions extends Question {
 	
 	public AmericanQuestions(String content, Answer[] answers) {   //American Q C'tor
 		super(content);
-		allAnswers = new Answer[MAX_ANSWERS];	
-		allAnswers =  Arrays.copyOf(answers, answers.length);//answers array from MAIN
+		
+		allAnswers =  Arrays.copyOf(answers, MAX_ANSWERS);//answers array from MAIN
+		
 		int counter = 0;
 		for(int i = 0; i<answers.length; i++) { //check number of right answers
 			if(answers[i].getIsRight())
@@ -20,7 +21,7 @@ public class AmericanQuestions extends Question {
 		allAnswers[answers.length]= new Answer("More than one answer is true", moreThanOne); //initialize 2 auto answers
 		allAnswers[answers.length+1]= new Answer("None of the above is true", noneOf);
 		
-		this.numOfAnswers = allAnswers.length;
+		this.numOfAnswers = answers.length+2;
 		
 		
 	}
