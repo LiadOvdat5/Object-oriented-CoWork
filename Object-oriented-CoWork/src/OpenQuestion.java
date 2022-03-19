@@ -5,6 +5,7 @@ public class OpenQuestion extends Question {
 	
 	public OpenQuestion(String content, String answer) { //Open Q C'tor
 		super(content);
+		answer = answer.toLowerCase();
 		this.answer = new Answer(answer,true);
 	}
 	
@@ -15,6 +16,10 @@ public class OpenQuestion extends Question {
 		return answer.setContent(newAnswer);
 	}
  
+	//Check if answer provided is true or false
+	public Boolean checkAnswer(String ans) {
+		return (ans.toLowerCase()).equals(answer.content);
+	}
 	
 	//Delete Answer
 	public boolean deleteAnswer() {

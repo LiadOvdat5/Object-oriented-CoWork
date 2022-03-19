@@ -97,7 +97,7 @@ public class Exam {
 	public String toString() {//To String - print;
 		StringBuffer sBuffer = new StringBuffer();
 		
-		sBuffer.append("The exam has: " + this.numOfQuestions + " questions. \n" );
+		sBuffer.append("Exam " + this.examName + " has: " + this.numOfQuestions + " questions. \n" );
 		
 		for(int i = 0; i < numOfQuestions; i++) {
 			sBuffer.append("Exam details: \n" + allQuestions[i].toString() + "\n -------- END OF EXAM -------- \n" );
