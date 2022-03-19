@@ -50,6 +50,7 @@ public class AmericanQuestions extends Question {
 				sBuffer.append(allAnswers[i].toString() + "\n");
 			
 		}
+		sBuffer.append("\n");
 		
 		return sBuffer.toString();
 	}

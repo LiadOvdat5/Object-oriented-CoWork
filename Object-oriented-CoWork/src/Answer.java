@@ -26,7 +26,7 @@ public class Answer {
 	
 	public String toString() { //To String - print answer;
 		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append("Answer: " + this.content + " | Answer is: " + this.isRight);
+		sBuffer.append("    Answer: " + this.content + " |  " + this.isRight);
 		
 		return sBuffer.toString();
 	}

@@ -31,6 +31,7 @@ public class OpenQuestion extends Question {
 		StringBuffer sBuffer = new StringBuffer();
 		if(answer != null)
 			sBuffer.append(super.toString() + answer.toString() + "\n");
+		sBuffer.append("\n");
 		
 		return sBuffer.toString();
 	}

@@ -21,7 +21,7 @@ public abstract class Question {
 		return true;
 	}
 	
-	
+	//public void setSerialNum()
 		
 	
 	
@@ -29,8 +29,9 @@ public abstract class Question {
 	
 	public String toString() { //To String - print;
 		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append("Question number: " + this.serialNumber + "\n Question content: " + this.content + "? \n");
-		
+		sBuffer.append("Question number (serialNum in repository): " + this.serialNumber + "\n");
+		sBuffer.append("  Question content: " + this.content + "? \n");
+
 		return sBuffer.toString();
 	}
 }

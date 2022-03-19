@@ -17,11 +17,12 @@ public class Manager {
 	public Manager() {
 		this.allExams = new Exam[1];
 		this.numOfExams = 0;
+		questionsRepository();
 	}
 
 	// create Exam in blank space or increase the array by 2.
 	public void ExamSpace(String name) {
-		if (numOfExams == allExams.length - 1)
+		if (numOfExams == allExams.length)
 			allExams = Arrays.copyOf(allExams, numOfExams * 2);
 		allExams[numOfExams] = new Exam(name);
 		numOfExams++;
@@ -43,14 +44,14 @@ public class Manager {
 		for (int i = 0; i < numOfAmerican; i++) { // loop of American Q
 			System.out.println("What is the American question, question content ? ");
 			String qContent = scanner.next();
-
-			System.out.println("how many asnswers? (up to 8) "); // Option for exception - no more than 8 answers
+			
+			System.out.println("how many answers? (up to 8) "); // Option for exception - no more than 8 answers
 																	// provided.
 			int numOfAnswers = scanner.nextInt();
 			Answer[] ansArray = new Answer[numOfAnswers];
 
 			for (int j = 0; j < numOfAnswers; j++) { // loop of answers for American - array of answers
-				System.out.println("Answer num " + (i + 1) + " content and true or false");
+				System.out.println("Answer num " + (j + 1) + " content and true or false");
 				String aContent = scanner.next();
 				Boolean trueOrFalse = scanner.nextBoolean();
 
@@ -93,86 +94,86 @@ public class Manager {
 		ansArray[0] = new Answer("Prague", false);
 		ansArray[1] = new Answer("Zagreb", true);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Belarus", ansArray); // Insert new American Q
+		questionsArray[1] = new AmericanQuestions("What is the capital of Belarus", ansArray); // Insert new American Q
 
 		// 0-9 Q2
 		ansArray[0] = new Answer("vienna", false);
 		ansArray[1] = new Answer("Belmopan", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Croatia", ansArray); // Insert new American Q
+		questionsArray[2] = new AmericanQuestions("What is the capital of Croatia", ansArray); // Insert new American Q
 
 		// 0-9 Q3
 		ansArray[0] = new Answer("Tallinn", true);
 		ansArray[1] = new Answer("Helsinki", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Estonia", ansArray); // Insert new American Q
+		questionsArray[3] = new AmericanQuestions("What is the capital of Estonia", ansArray); // Insert new American Q
 
 		// 0-9 Q4
 		ansArray[0] = new Answer("Berlin", true);
 		ansArray[1] = new Answer("Munich", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Germany", ansArray); // Insert new American Q
+		questionsArray[4] = new AmericanQuestions("What is the capital of Germany", ansArray); // Insert new American Q
 
 		// 0-9 Q5
 		ansArray[0] = new Answer("Copenhagen", true);
 		ansArray[1] = new Answer("Odense", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Denemark", ansArray); // Insert new American Q
+		questionsArray[5] = new AmericanQuestions("What is the capital of Denemark", ansArray); // Insert new American Q
 
 		// 0-9 Q6
 		ansArray[0] = new Answer("Stockholm", true);
 		ansArray[1] = new Answer("Dublin", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Sweden", ansArray); // Insert new American Q
+		questionsArray[6] = new AmericanQuestions("What is the capital of Sweden", ansArray); // Insert new American Q
 
 		// 0-9 Q7
 		ansArray[0] = new Answer("Lima", true);
 		ansArray[1] = new Answer("Asuncion", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Peru", ansArray); // Insert new American Q
+		questionsArray[7] = new AmericanQuestions("What is the capital of Peru", ansArray); // Insert new American Q
 
 		// 0-9 Q8
 		ansArray[0] = new Answer("Zurich", false);
 		ansArray[1] = new Answer("Geneve", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of Switzerland", ansArray); // Insert new
+		questionsArray[8] = new AmericanQuestions("What is the capital of Switzerland", ansArray); // Insert new
 																									// American Q
 
 		// 0-9 Q9
 		ansArray[0] = new Answer("Beijing", true);
 		ansArray[1] = new Answer("Hong Kong", false);
 
-		questionsArray[0] = new AmericanQuestions("What is the capital of China", ansArray); // Insert new American Q
+		questionsArray[9] = new AmericanQuestions("What is the capital of China", ansArray); // Insert new American Q
 
 		// 10-19 Q10
-		questionsArray[1] = new OpenQuestion("Who was the first prime minister of Israel?", "David Ben Gurion");
+		questionsArray[10] = new OpenQuestion("Who was the first prime minister of Israel?", "David Ben Gurion");
 
 		// 10-19 Q11
-		questionsArray[1] = new OpenQuestion("In what year did World War II end?", "1945");
+		questionsArray[11] = new OpenQuestion("In what year did World War II end?", "1945");
 
 		// 10-19 Q12
-		questionsArray[1] = new OpenQuestion("What color do we get for mixing red, blue and yellow?", "Black");
+		questionsArray[12] = new OpenQuestion("What color do we get for mixing red, blue and yellow?", "Black");
 
 		// 10-19 Q13
-		questionsArray[1] = new OpenQuestion("What is the name of Queen's lead singer?", "freddie mercury");
+		questionsArray[13] = new OpenQuestion("What is the name of Queen's lead singer?", "freddie mercury");
 
 		// 10-19 Q14
-		questionsArray[1] = new OpenQuestion("In what year was the Yom Kipuer War?", "1973");
+		questionsArray[14] = new OpenQuestion("In what year was the Yom Kipuer War?", "1973");
 
 		// 10-19 Q15
-		questionsArray[1] = new OpenQuestion("What is the name the National fruit of India?", "Mango");
+		questionsArray[15] = new OpenQuestion("What is the name the National fruit of India?", "Mango");
 
 		// 10-19 Q16
-		questionsArray[1] = new OpenQuestion("Name the longest river on the Earth?", "Nile");
+		questionsArray[16] = new OpenQuestion("Name the longest river on the Earth?", "Nile");
 
 		// 10-19 Q17
-		questionsArray[1] = new OpenQuestion("Who gave the universal law of gravitation?", "Issac Newton");
+		questionsArray[17] = new OpenQuestion("Who gave the universal law of gravitation?", "Issac Newton");
 
 		// 10-19 Q18
-		questionsArray[1] = new OpenQuestion("Name the National game of the USA", "Baseball");
+		questionsArray[18] = new OpenQuestion("Name the National game of the USA", "Baseball");
 
 		// 10-19 Q19
-		questionsArray[1] = new OpenQuestion("What is the National food of Israel?", "Falafel");
+		questionsArray[19] = new OpenQuestion("What is the National food of Israel?", "Falafel");
 
 	}
 

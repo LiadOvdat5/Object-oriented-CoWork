@@ -99,9 +99,11 @@ public class Exam {
 		
 		sBuffer.append("Exam " + this.examName + " has: " + this.numOfQuestions + " questions. \n" );
 		
+		sBuffer.append("Exam details: \n" );
 		for(int i = 0; i < numOfQuestions; i++) {
-			sBuffer.append("Exam details: \n" + allQuestions[i].toString() + "\n -------- END OF EXAM -------- \n" );
+			sBuffer.append( allQuestions[i].toString());
 		}
+		sBuffer.append("\n -------- END OF EXAM -------- \n" );
 		
 		return sBuffer.toString();
 	}
