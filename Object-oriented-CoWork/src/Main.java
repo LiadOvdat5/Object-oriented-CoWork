@@ -18,7 +18,7 @@ public class Main {
 				+ "5 - delete an answer to an existing question \r\n" 
 				+ "6 - Create exam manually \r\n"
 				+ "7 - Create exam automatically \r\n"
-				+ "8 – Exit");
+				+ "8 ï¿½ Exit");
 				
 		selectedNumber = input.nextInt();
 
@@ -74,8 +74,8 @@ public class Main {
 					+ "5 - [KEREN Q(8) - Array is Mirrored] \r\n" 
 					+ "6 - [KEREN Q(11) - print 4 colums of as many astricks as the user want up to 10] \r\n"
 					+ "7 - [KEREN Q(12) - Print matrix of 0-10 raws and columns with user values and the highest number on the frame] \r\n"
-					+ "8 – [KEREN Q(6) [Functions] - return in matrix if sum of raw is equal to sum of raw respectively ]\r\n"
-					+ "9 – [KEREN Q(8) [Functions] - return the sum of two numbers in arrays]\r\n"
+					+ "8 ï¿½ [KEREN Q(6) [Functions] - return in matrix if sum of raw is equal to sum of raw respectively ]\r\n"
+					+ "9 ï¿½ [KEREN Q(8) [Functions] - return the sum of two numbers in arrays]\r\n"
 					+ "10 - EXIT\r\n");
 			selectedNumber = input.nextInt();
 		}
