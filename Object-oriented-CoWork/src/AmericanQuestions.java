@@ -18,11 +18,16 @@ public class AmericanQuestions extends Question {
 		}
 		boolean moreThanOne = (counter>1);
 		boolean noneOf = (counter==0);
-		allAnswers[answers.length]= new Answer("More than one answer is true", moreThanOne); //initialize 2 auto answers
-		allAnswers[answers.length+1]= new Answer("None of the above is true", noneOf);
+		allAnswers[answers.length]= new Answer("None of the above is true", noneOf); //initialize 2 auto answers
+		allAnswers[answers.length + 1]= new Answer("More than one answer is true", moreThanOne); 
 		
-		this.numOfAnswers = answers.length+2;
+		this.numOfAnswers = answers.length+2; //set num of answer to num of answers inserted + 2 automatic answers
 		
+		if(moreThanOne) //if more than one q is right than make all answers wrong except "moreThan1" ans
+			for(int i = 0; i < numOfAnswers-1; i++)
+				allAnswers[i].isRight = false;
+			
+
 		
 	}
 	

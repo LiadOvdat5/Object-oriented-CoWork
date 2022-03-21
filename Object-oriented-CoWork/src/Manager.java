@@ -30,49 +30,18 @@ public class Manager {
 	}
 
 	// generate new Exam manually
-	public void generateExam(String nameOfExam) { // (Scheme) EXAM > QUES ARRAY > QUES (AMERICAN OR OPEN) > IF AMERICAN
+	public void generateExam(String nameOfExam, Question [] dataFromUser) { // (Scheme) EXAM > QUES ARRAY > QUES (AMERICAN OR OPEN) > IF AMERICAN
 													// - ANS ARRAY
 		ExamSpace(nameOfExam); // Create Exam
 		Exam currentExam = allExams[numOfExams - 1]; // pointer
+		for(int i = 0; i < dataFromUser.length; i++) //loop that adds the questions from the user to the current exam.
+		{
+			currentExam.addQuestion(dataFromUser[i]);
+		} 
 
-		System.out.println("how many american questions you want? ");
-		int numOfAmerican = scanner.nextInt();
+		
 
-		System.out.println("how many open questions you want? ");
-		int numOfOpen = scanner.nextInt();
-
-		for (int i = 0; i < numOfAmerican; i++) { // loop of American Q
-			System.out.println("What is the American question, question content ? ");
-			String qContent = scanner.next();
-			
-			System.out.println("how many answers? (up to 8) "); // Option for exception - no more than 8 answers
-																	// provided.
-			int numOfAnswers = scanner.nextInt();
-			Answer[] ansArray = new Answer[numOfAnswers];
-
-			for (int j = 0; j < numOfAnswers; j++) { // loop of answers for American - array of answers
-				System.out.println("Answer num " + (j + 1) + " content and true or false");
-				String aContent = scanner.next();
-				Boolean trueOrFalse = scanner.nextBoolean();
-
-				ansArray[j] = new Answer(aContent, trueOrFalse);
-
-			}
-
-			currentExam.addQuestion(new AmericanQuestions(qContent, ansArray)); // add American question to exam
-
-		}
-
-		for (int i = 0; i < numOfOpen; i++) { // loop of Open Q
-			System.out.println("What is the Open question, question content ? ");
-			String qContent = scanner.next();
-
-			System.out.println("Answer content");
-			String aContent = scanner.next();
-
-			currentExam.addQuestion(new OpenQuestion(qContent, aContent)); // add American question to exam
-
-		}
+	
 
 		System.out.println(currentExam.toString());
 
@@ -178,12 +147,9 @@ public class Manager {
 	}
 
 	// generate automatic Exam
-	public void generateAutomaticExam() {  
-		ExamSpace("Auto Exam"); // Create Exam
+	public void generateAutomaticExam(int numOfQ) {  
+		ExamSpace("Auto Exam - General Knowledge"); // Create Exam
 		Exam currentExam = allExams[numOfExams - 1]; // pointer
-
-		System.out.println("How many questions you want? (up to 20) ");
-		int numOfQ = scanner.nextInt();
 
 		int max = questionsArray.length - 1, min = 0;
 		for (int i = 0; i < numOfQ; i++) { // loop of Q
@@ -199,6 +165,31 @@ public class Manager {
 
 	}
 
+	//Print Exams Name and Num
+	public String getListOfExams() {//To String - print;
+		StringBuffer sBuffer = new StringBuffer();
+		
+		sBuffer.append("There are " + this.numOfExams + " Exams: \n" );
+		
+		for(int i = 0; i < numOfExams; i++) {
+			sBuffer.append((i+1) + ") " + allExams[i].getExamName() + "\n");
+		}
+		return sBuffer.toString();
+	}
+	
+	//Get Num of exams
+	public int getNumOfExams(){
+		return this.numOfExams;
+	}
+		
+	//Get Exam
+	public Exam getExam(int numOfExam) {
+		return this.allExams[numOfExam-1];
+	}
+	
+	
+	
+	
 	//to string
 	public String toString() {//To String - print;
 		StringBuffer sBuffer = new StringBuffer();
