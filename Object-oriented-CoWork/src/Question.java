@@ -22,9 +22,10 @@ public abstract class Question {
 	}
 	
 	//public void setSerialNum()
-		
+	abstract String printAnswers();
 	
-	
+	//Check if answer provided is identical 
+	public abstract boolean checkAnswer(String cont, Answer ans);
 	
 	
 	public String toString() { //To String - print;

@@ -13,18 +13,29 @@ public class OpenQuestion extends Question {
 	//open Q answer update
 	public boolean updateAnswer(String newAnswer)
 	{
+		if(checkAnswer(newAnswer, this.answer))
+			return false;
 		return answer.setContent(newAnswer);
 	}
  
-	//Check if answer provided is true or false
-	public Boolean checkAnswer(String ans) {
-		return (ans.toLowerCase()).equals(answer.content);
+	//Check if answer provided is identical 
+	@Override
+	public boolean checkAnswer(String cont, Answer ans) {
+		return (cont.toLowerCase()).equals(answer.content.toLowerCase());
 	}
 	
-	//Delete Answer
-	public boolean deleteAnswer() {
-		this.answer = null;
-		return true;
+	
+	
+	
+	//print Answer
+	@Override
+	public String printAnswers() {
+		return this.answer.getContent();
+	}
+	
+	//return A
+	public Answer getAnswer() {
+		return this.answer;
 	}
 	
 	public String toString() {//To String - print;

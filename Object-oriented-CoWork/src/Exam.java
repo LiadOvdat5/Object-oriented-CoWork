@@ -76,19 +76,27 @@ public class Exam {
 		return temp.updateAnswer(content, aNum);
 	}
 
-	// delete answer
-	// Delete American Question
-	public boolean deleteOpenAnswer(int qNum) {
-		OpenQuestion temp = (OpenQuestion) allQuestions[qNum - 1];
-		return temp.deleteAnswer();
+	// Delete Question (delete answer of open Q)
+	public boolean deleteQuestion(int qNum) {
+		if(qNum == numOfQuestions) {
+			allQuestions[qNum-1] = null;
+			numOfQuestions--;
+			return true;
+		}
+		for(int i = qNum-1; i < numOfQuestions-1; i++) {
+			allQuestions[i] = allQuestions[i+1];
+		}
+		allQuestions[numOfQuestions-1] = null;
+		return true;
 	}
-
-	// Delete American Question
-	public boolean deleteAmericanAnswer(int qNum, int aNum) {
-		AmericanQuestions temp = (AmericanQuestions) allQuestions[qNum - 1];
-		return temp.deleteAnswer(aNum);
+	
+		
+	//Get Question by 
+	public Question getQuestion(int num) {
+		return allQuestions[num-1];
 	}
-
+	
+	
 	// toString
 	public String toString() {// To String - print;
 		StringBuffer sBuffer = new StringBuffer();

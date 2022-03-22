@@ -17,6 +17,10 @@ public class Answer {
 		return this.isRight;
 	}
 	
+	public void setRight() {
+		this.isRight = true;
+	}
+	
 	public boolean setContent(String cont) {
 		this.content = cont;
 		return true;

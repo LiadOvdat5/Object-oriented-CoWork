@@ -27,25 +27,75 @@ public class AmericanQuestions extends Question {
 			for(int i = 0; i < numOfAnswers-1; i++)
 				allAnswers[i].isRight = false;
 			
-
 		
 	}
 	
 	//American Q answer update
 	public boolean updateAnswer(String content, int aNum) {
+		if(checkAnswer(content, allAnswers[aNum-1]))
+			return false;
 		return allAnswers[aNum-1].setContent(content);
 	}
 	
 	
+	//print Answer
+	@Override
+	public String printAnswers() {
+		StringBuffer sBuffer = new StringBuffer();
+		for(int i = 0; i < numOfAnswers-2; i++) {
+			sBuffer.append((i+1) +") "  + allAnswers[i].getContent() + "\n");
+		}
+		return sBuffer.toString();
+	}
+
+	//return A
+	public Answer getAnswer(int numOfAnswer) {
+		return allAnswers[numOfAnswer-1];
+	}
+	
+	//return num of answers
+	public int getNumOfAnswers() {
+		return numOfAnswers;
+	}
+	
+	//Check if answer provided is identical 
+	@Override
+	public boolean checkAnswer(String cont, Answer ans) {
+		return (cont.toLowerCase()).equals(ans.getContent().toLowerCase());
+	}
+	
 	//Delete Answer
-		public boolean deleteAnswer(int aNum) {
-			for(int i = aNum-1; i < numOfAnswers-1; i++)
-				allAnswers[i] = allAnswers[i+1];
-			allAnswers[numOfAnswers-1] = null;
+	public boolean deleteAnswer(int aNum) {
+		if(aNum == numOfAnswers) {
+			allAnswers[aNum-1] = null;
 			numOfAnswers--;
 			return true;
+		}
+		for(int i = aNum-1; i < numOfAnswers-1; i++)
+			allAnswers[i] = allAnswers[i+1];
+		
+		allAnswers[numOfAnswers-1] = null;
+		numOfAnswers--;
+		
+		checkForTrueAnswer();
+		
+		return true;
 			
 		}
+	
+	//Check if there is any true answer
+	public void checkForTrueAnswer() {
+		int counter = 0;
+		for(int i = 0; i < numOfAnswers; i++) {
+			if(allAnswers[i].getIsRight())
+				counter++;
+		}
+		if(counter == 0)
+			allAnswers[numOfAnswers-2].setRight();
+				
+		}
+
+	
 	
 	public String toString() {//To String - print;
 		StringBuffer sBuffer = new StringBuffer();
