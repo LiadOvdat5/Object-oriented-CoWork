@@ -69,16 +69,20 @@ public class Main {
 				System.out.println(currentExam.getListOfQuestions());
 				
 				int choice = -1, numOfQ= currentExam.getNumOfQuestions();
+				if(numOfQ == 0) {
+					System.out.println("there are no questions in the exam to update \n");
+					break;
+				}
 				while(choice < 1 || choice > numOfQ ) {
 					 System.out.println("Which Question whould you like to update?");
 					 choice = input.nextInt();
 				 }
 				boolean keepasking = true;
 				while(keepasking){
-				System.out.println("enter the updated question and a '?' afterwards");
+				System.out.println("enter the updated question (no need to put a '?' at the end)");
 				String content = input.next();
 				 if(currentExam.updateQuestionContent(content, choice)){
-					 System.out.println("question " + choice + " updated successfully!");
+					 System.out.println("question " + choice + " updated successfully! \n");
 					keepasking = false;
 					break;
 				 }

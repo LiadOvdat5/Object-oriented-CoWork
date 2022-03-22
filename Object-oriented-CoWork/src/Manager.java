@@ -115,34 +115,34 @@ public class Manager {
 		questionsArray[9] = new AmericanQuestions("What is the capital of China", ansArray); // Insert new American Q
 
 		// 10-19 Q10
-		questionsArray[10] = new OpenQuestion("Who was the first prime minister of Israel?", "David Ben Gurion");
+		questionsArray[10] = new OpenQuestion("Who was the first prime minister of Israel", "David Ben Gurion");
 
 		// 10-19 Q11
-		questionsArray[11] = new OpenQuestion("In what year did World War II end?", "1945");
+		questionsArray[11] = new OpenQuestion("In what year did World War II end", "1945");
 
 		// 10-19 Q12
-		questionsArray[12] = new OpenQuestion("What color do we get for mixing red, blue and yellow?", "Black");
+		questionsArray[12] = new OpenQuestion("What color do we get for mixing red, blue and yellow", "Black");
 
 		// 10-19 Q13
-		questionsArray[13] = new OpenQuestion("What is the name of Queen's lead singer?", "freddie mercury");
+		questionsArray[13] = new OpenQuestion("What is the name of Queen's lead singer", "freddie mercury");
 
 		// 10-19 Q14
-		questionsArray[14] = new OpenQuestion("In what year was the Yom Kipuer War?", "1973");
+		questionsArray[14] = new OpenQuestion("In what year was the Yom Kipuer War", "1973");
 
 		// 10-19 Q15
-		questionsArray[15] = new OpenQuestion("What is the name the National fruit of India?", "Mango");
+		questionsArray[15] = new OpenQuestion("What is the National fruit of India", "Mango");
 
 		// 10-19 Q16
-		questionsArray[16] = new OpenQuestion("Name the longest river on the Earth?", "Nile");
+		questionsArray[16] = new OpenQuestion("Name the longest river on Earth", "Nile");
 
 		// 10-19 Q17
-		questionsArray[17] = new OpenQuestion("Who gave the universal law of gravitation?", "Issac Newton");
+		questionsArray[17] = new OpenQuestion("Who gave the universal law of gravitation", "Issac Newton");
 
 		// 10-19 Q18
 		questionsArray[18] = new OpenQuestion("Name the National game of the USA", "Baseball");
 
 		// 10-19 Q19
-		questionsArray[19] = new OpenQuestion("What is the National food of Israel?", "Falafel");
+		questionsArray[19] = new OpenQuestion("What is the National food of Israel", "Falafel");
 
 	}
 
