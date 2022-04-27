@@ -82,7 +82,8 @@ public class AmericanQuestions extends Question {
 		return true;
 			
 		}
-	
+
+
 	//Check if there is any true answer
 	public void checkForTrueAnswer() {
 		int counter = 0;

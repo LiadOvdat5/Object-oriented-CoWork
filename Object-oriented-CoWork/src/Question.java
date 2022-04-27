@@ -26,6 +26,17 @@ public abstract class Question {
 	
 	//Check if answer provided is identical 
 	public abstract boolean checkAnswer(String cont, Answer ans);
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Question))
+			return false;
+		Question tempQuestion = (Question)obj;
+		if(this.content == tempQuestion.getContent() && this.getClass().getSimpleName().equals(tempQuestion.getClass().getSimpleName()) ) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 	public String toString() { //To String - print;
