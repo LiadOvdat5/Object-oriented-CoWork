@@ -257,52 +257,37 @@ public class Main {
 
 	// 5 delete an answer to an existing question
 	public static void deleteAnswerFromQuestion(Manager manager) {
-		int numOfExam = selectExam(manager);
+		
 
-		if (numOfExam == -1)
+		int selectedQuestion = selectQuestion(manager); // Select question
+		if (selectedQuestion == -1)
 			return;
 
-		Exam currentExam = manager.getExam(numOfExam); // pointer to the desired Exam
-
-		System.out.println(currentExam.getListOfQuestions()); // print all questions
-
-		int choice = selectQuestion(currentExam); // Select question
-		if (choice == -1)
-			return;
-
-		if (currentExam.getQuestion(choice) instanceof OpenQuestion) {
+		
+		
+		if (manager.getQuestion(selectedQuestion) instanceof OpenQuestion) {
 			System.out.println(
 					"Deleting the answer of Open question will delete the question, for not deleting press 1, otherwise press 2");
 			if (input.nextInt() == 1) {
 				return;
 			} else {
-				if (deleted)
+				if (manager.deleteQuestion(selectedQuestion))
 					System.out.println("The question deleted succesfully! ");
 			}
 
-		} else if (currentExam.getQuestion(choice) instanceof AmericanQuestions) {
-			System.out.println(
-					"Choose the answer you want to delete: \n" + currentExam.getQuestion(choice).printAnswers()); // Print
-																													// All
-																													// Answers
-			AmericanQuestions tempAmericanQuestion = (AmericanQuestions) currentExam.getQuestion(choice);
+		} else if (manager.getQuestion(selectedQuestion) instanceof AmericanQuestions) {
+			int aNum = selectAmericanAnswer((AmericanQuestions)(manager.getQuestion(selectedQuestion)));
+			AmericanQuestions tempAmericanQuestion = (AmericanQuestions)manager.getQuestion(selectedQuestion);
 
-			int selectedAns = input.nextInt(); // Check if the number of answer is within range
-			while (selectedAns < 1 || selectedAns > tempAmericanQuestion.getNumOfAnswers() - 2) {
-				System.out.println(
-						"invalid answer number, try again \n" + currentExam.getQuestion(choice).printAnswers()); // Print
-																													// All
-																													// Answers
-				selectedAns = input.nextInt();
-			}
+			
 
-			Boolean deleted = tempAmericanQuestion.deleteAnswer(selectedAns);
+			Boolean deleted = tempAmericanQuestion.deleteAnswer(aNum);
 			if (deleted)
 				System.out.println("The answer deleted succesfully! ");
 
 			if (tempAmericanQuestion.getNumOfAnswers() <= 2) { // TODO: relocate in Manager ?
 				System.out.println("There are only auto answers, Question is deleted! ");
-				currentExam.deleteQuestion(choice);
+				manager.deleteQuestion(selectedQuestion);
 			}
 
 		}
@@ -324,11 +309,11 @@ public class Main {
 
 		for (int i = 0; i < numOfAmerican; i++) { // loop of American Q
 
-			qArray[i] = createAmericanQ(); // add American question to qArray
+			qArray[i] = manager.getQuestion(createAmericanQ(manager)); // add American question to qArray
 		}
 
 		for (int i = numOfAmerican; i < qArray.length; i++) // loop of Open Q
-			qArray[i] = createOpenQ(); // add Open question to exam
+			qArray[i] = manager.getQuestion(createOpenQ(manager)); // add Open question to exam
 
 		manager.generateExam(examName, qArray);
 	}

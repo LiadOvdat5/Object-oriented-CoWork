@@ -285,6 +285,20 @@ public class Manager {
 		return ((AmericanQuestions)questionsArray[qNum]).updateAnswer(aContent, aNum);	
 	}
 	
+	// Delete Question (delete answer of open Q)
+		public boolean deleteQuestion(int qNum) {
+			if(qNum == numOfQuestions) {
+				questionsArray[qNum-1] = null;
+				numOfQuestions--;
+				return true;
+			}
+			for(int i = qNum-1; i < numOfQuestions-1; i++) {
+				questionsArray[i] = questionsArray[i+1];
+			}
+			questionsArray[numOfQuestions-1] = null;
+			return true;
+		}
+		
 	
 	// to string
 	public String toString() {// To String - print;
