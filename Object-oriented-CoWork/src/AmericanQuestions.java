@@ -5,31 +5,32 @@ public class AmericanQuestions extends Question {
 	private static final int MAX_ANSWERS = 10;
 	private Answer[] allAnswers;
 	private int numOfAnswers;
+	private Answer[] rightAnswers;
 	private int rightAnswerCounter;
 	
 	public AmericanQuestions(String content, Answer[] answers) {   //American Q C'tor
 		super(content);
-		this.rightAnswerCounter = 0;
-		allAnswers =  Arrays.copyOf(answers, MAX_ANSWERS);//answers array from MAIN
+		this.allAnswers =  Arrays.copyOf(answers, MAX_ANSWERS);//answers array from MAIN
+		this.rightAnswers = new Answer[MAX_ANSWERS-2];
 		
-		int counter = 0;
-		for(int i = 0; i<answers.length; i++) { //check number of right answers
-			if(answers[i].getIsRight()) {
-				//rightAnswers[i] = new Answer(answers[i].getContent(), answers[i].getIsRight()); //-------------- what Keren says TODO
-				counter++;
+		
+		this.rightAnswerCounter = 0; //add right answer to Eg. 0 and increase addrightAnswer by 1
+		for(int i = 0; i<allAnswers.length; i++) { //check number of right answers
+			if(allAnswers[i].getIsRight()) {
+				this.rightAnswers[rightAnswerCounter++] = allAnswers[i]; // Right answers will be same answers from all answers array
+				
 			}
 		}
-		boolean moreThanOne = (counter>1);
-		boolean noneOf = (counter==0);
+		boolean moreThanOne = (this.rightAnswerCounter > 1);
+		boolean noneOf = (this.rightAnswerCounter == 0);
 		allAnswers[answers.length]= new Answer("None of the above is true", noneOf); //initialize 2 auto answers
 		allAnswers[answers.length + 1]= new Answer("More than one answer is true", moreThanOne); 
 		
 		this.numOfAnswers = answers.length+2; //set num of answer to num of answers inserted + 2 automatic answers
 		
 		if(moreThanOne) //if more than one answer is right than make all answers wrong except "moreThan1" ans
-			for(int i = 0; i < numOfAnswers-1; i++){
-				if(allAnswers[i].isRight) {
-					rightAnswerCounter++;
+			for(int i = 0; i < this.numOfAnswers - 1; i++){
+				if(this.allAnswers[i].isRight) {
 					allAnswers[i].setFalse();
 					
 				}
@@ -63,7 +64,7 @@ public class AmericanQuestions extends Question {
 	
 	//return num of answers
 	public int getNumOfAnswers() {
-		return numOfAnswers;
+		return this.numOfAnswers;
 	}
 	
 	//Check if answer provided is identical 
@@ -72,13 +73,24 @@ public class AmericanQuestions extends Question {
 		return (cont.toLowerCase()).equals(ans.getContent().toLowerCase());
 	}
 	
+	
+	
 	//Delete Answer
 	public boolean deleteAnswer(int aNum) {
-		if(allAnswers[aNum-1].isRight)
-			rightAnswerCounter--;
+		boolean match = false;
+		int currentRightAnswerNum = 0;
+		while(!match && currentRightAnswerNum != this.rightAnswerCounter) {
+			if(checkAnswer(this.allAnswers[aNum].getContent(), this.rightAnswers[currentRightAnswerNum]) ) {
+				this.rightAnswers[currentRightAnswerNum] = null;
+				this.rightAnswerCounter--;
+				match = true;
+			}
+			currentRightAnswerNum++;
+		}
 		
-		if(aNum == numOfAnswers-2) {
-			allAnswers[aNum-1] = null;
+		
+		if(aNum == this.numOfAnswers - 2) { //Standart Delete
+			this.allAnswers[aNum-1] = null;
 			numOfAnswers--;
 			return true;
 		}
@@ -112,7 +124,11 @@ public class AmericanQuestions extends Question {
 		if(rightAnswerCounter == 1) {
 		    allAnswers[numOfAnswers-2].setFalse(); //none of the answers is false
 			allAnswers[numOfAnswers-1].setFalse(); //more than one answer is false 
-			//TODO: Set the right answer as right
+			for(int i = 0; i < this.rightAnswerCounter; i++) { //Set the only right answer to right
+				if(this.rightAnswers[i] != null) {
+					this.rightAnswers[i].setRight();
+				}
+			}
 		}
 
 		
