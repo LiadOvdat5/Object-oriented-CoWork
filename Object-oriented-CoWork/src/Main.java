@@ -7,6 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		input.useDelimiter(System.getProperty("line.separator"));
+		//Dont mind
 
 		int selectedNumber;
 		final int EXIT = 8;
