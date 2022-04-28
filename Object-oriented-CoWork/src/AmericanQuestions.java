@@ -5,16 +5,19 @@ public class AmericanQuestions extends Question {
 	private static final int MAX_ANSWERS = 10;
 	private Answer[] allAnswers;
 	private int numOfAnswers;
+	private int rightAnswerCounter;
 	
 	public AmericanQuestions(String content, Answer[] answers) {   //American Q C'tor
 		super(content);
-		
+		this.rightAnswerCounter = 0;
 		allAnswers =  Arrays.copyOf(answers, MAX_ANSWERS);//answers array from MAIN
 		
 		int counter = 0;
 		for(int i = 0; i<answers.length; i++) { //check number of right answers
-			if(answers[i].getIsRight())
+			if(answers[i].getIsRight()) {
+				//rightAnswers[i] = new Answer(answers[i].getContent(), answers[i].getIsRight()); //-------------- what Keren says TODO
 				counter++;
+			}
 		}
 		boolean moreThanOne = (counter>1);
 		boolean noneOf = (counter==0);
@@ -23,9 +26,14 @@ public class AmericanQuestions extends Question {
 		
 		this.numOfAnswers = answers.length+2; //set num of answer to num of answers inserted + 2 automatic answers
 		
-		if(moreThanOne) //if more than one q is right than make all answers wrong except "moreThan1" ans
-			for(int i = 0; i < numOfAnswers-1; i++)
-				allAnswers[i].isRight = false;
+		if(moreThanOne) //if more than one answer is right than make all answers wrong except "moreThan1" ans
+			for(int i = 0; i < numOfAnswers-1; i++){
+				if(allAnswers[i].isRight) {
+					rightAnswerCounter++;
+					allAnswers[i].setFalse();
+					
+				}
+			}
 			
 		
 	}
@@ -66,7 +74,10 @@ public class AmericanQuestions extends Question {
 	
 	//Delete Answer
 	public boolean deleteAnswer(int aNum) {
-		if(aNum == numOfAnswers) {
+		if(allAnswers[aNum-1].isRight)
+			rightAnswerCounter--;
+		
+		if(aNum == numOfAnswers-2) {
 			allAnswers[aNum-1] = null;
 			numOfAnswers--;
 			return true;
@@ -86,15 +97,27 @@ public class AmericanQuestions extends Question {
 
 	//Check if there is any true answer
 	public void checkForTrueAnswer() {
-		int counter = 0;
-		for(int i = 0; i < numOfAnswers; i++) {
-			if(allAnswers[i].getIsRight())
-				counter++;
+		
+		if(rightAnswerCounter == 0) {
+			allAnswers[numOfAnswers-2].setRight(); //none of the answers is right
+			allAnswers[numOfAnswers-1].setFalse(); //more than one answer is false 
+			
 		}
-		if(counter == 0)
-			allAnswers[numOfAnswers-2].setRight();
-				
+		
+		if(rightAnswerCounter > 1 ) {
+			allAnswers[numOfAnswers-1].setRight(); //more than one answer is right 
+		    allAnswers[numOfAnswers-2].setFalse(); //none of the answers is false
 		}
+		
+		if(rightAnswerCounter == 1) {
+		    allAnswers[numOfAnswers-2].setFalse(); //none of the answers is false
+			allAnswers[numOfAnswers-1].setFalse(); //more than one answer is false 
+			//TODO: Set the right answer as right
+		}
+
+		
+		
+	}
 
 	
 	

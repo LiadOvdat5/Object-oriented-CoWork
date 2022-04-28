@@ -7,8 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		input.useDelimiter(System.getProperty("line.separator"));
-		//Dont mind
-
+		
 		int selectedNumber;
 		final int EXIT = 8;
 		Manager manager = new Manager();
@@ -274,6 +273,8 @@ public class Main {
 			} else {
 				if (manager.deleteQuestion(selectedQuestion))
 					System.out.println("The question deleted succesfully! ");
+				else 
+					System.out.println("The was not question deleted ");
 			}
 
 		} else if (manager.getQuestion(selectedQuestion) instanceof AmericanQuestions) {
