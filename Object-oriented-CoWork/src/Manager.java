@@ -297,16 +297,29 @@ public class Manager {
 		return questionsArray[num-1];
 	}
 	
-	//update Open answer
-	public boolean updateOpenAnswer(int qNum, String aContent) {
-		return ((OpenQuestion)questionsArray[qNum]).updateAnswer(aContent);	
-	}
 	
 
-	//update American answer
-	public boolean updateAmericanAnswer(int qNum,int aNum ,String aContent) {
-		return ((AmericanQuestions)questionsArray[qNum]).updateAnswer(aContent, aNum);	
+	//update answer for Open Question 
+	public boolean updateOpenQAnswer(Answer answer ,String aContent) {
+		return answer.setContent(aContent);	
 	}
+	
+	//update answer for American Question 
+	public boolean updateAmericanQAnswer(Answer answer ,String aContent, boolean isRight, AmericanQuestions question) {
+		
+		if(!isRight && answer.isRight) { //if new answer is false but original was right
+			question.decreaseRightAnswersCounter(answer);
+			answer.setFalse();
+		}
+		else if(isRight && !answer.isRight) { //if new answer is right but original was false
+			question.increaseRightAnswersCounter(answer);
+			answer.setRight();
+		} 
+		
+		question.checkForTrueAnswer();
+		return answer.setContent(aContent);
+	}
+		
 	
 	// Delete Question (delete answer of open Q)
 		public boolean deleteQuestion(int qNum) {
@@ -344,6 +357,15 @@ public class Manager {
 		
 		return questionsArray[qNum-1];
 	}	
+	
+	// Select American Answer
+	public Answer selectAmericanAnswer(AmericanQuestions question,int aNum) throws InvalidUserInputException {
+		if(aNum < 1 || aNum > question.getNumOfAnswers()) 
+			throw new InvalidUserInputException("answer");
+		
+		return question.getAnswer(aNum);
+
+		}
 	
 	//Select 1 for American 2 for open
 	public int checkValidRange(int typeN, int min, int max) throws InvalidUserInputException {

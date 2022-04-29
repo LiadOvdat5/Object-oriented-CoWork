@@ -26,6 +26,8 @@ public class Answer {
 	}
 	
 	public boolean setContent(String cont) {
+		if(cont.equals(this.content))
+			return false;	
 		this.content = cont;
 		return true;
 		

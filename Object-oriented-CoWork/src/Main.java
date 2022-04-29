@@ -78,7 +78,14 @@ public class Main {
 			}
 
 			case 4: { // Update content of an existing answer
-				UpdateContentOfAnswer(manager);
+				try {
+					UpdateContentOfAnswer(manager);
+				} catch (DataNotCreatedYetException e) {
+					System.out.println(e.getMessage());
+				} catch (InvalidUserInputException e) {
+					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
+				}
 				break;
 			}
 
@@ -165,21 +172,7 @@ public class Main {
 
 	}
 
-	// Select American Answer
-	public static int selectAmericanAnswer(AmericanQuestions q) {
-		int choice = -1, numOfA = q.getNumOfAnswers();
-
-		System.out.println("Which Answer whould you like to choose?");
-		System.out.println(q.printAnswers()); // print all questions
-		choice = input.nextInt();
-
-		while (choice < 1 || choice > numOfA) {
-			System.out.println("Choose proper question");
-			choice = input.nextInt();
-		}
-		return choice;
-
-	}
+	
 
 	// 2 Add Question (to the Exam and or data base)
 	public static void addQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException,
@@ -207,7 +200,7 @@ public class Main {
 			
 			} else {
 				System.out.println("Please select question: ");
-				manager.getListOfQuestions();
+				System.out.println(manager.getListOfQuestions());
 
 				manager.addQuestionToExam(currentExam, manager.selectQuestion(input.nextInt())); // add to current exam
 																									// the current
@@ -231,43 +224,47 @@ public class Main {
 
 	// 3 Update content of an existing question
 	public static void UpdateContentOfQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException, QuestionIdenticalException {
-
-		manager.getListOfQuestions();
+		System.out.println(manager.getListOfQuestions());
 		System.out.println("Please select question: ");
 		Question selectedQuestion = manager.selectQuestion(input.nextInt());
 
 		System.out.println("enter the updated question content (no need to put a '?' at the end)");
 		String content = input.next();
 		
-		manager.updateQuestionContent(content, selectedQuestion); 
-			
-		
+		manager.updateQuestionContent(content, selectedQuestion); 		
 	}
 
 	// 4 Update content of an existing answer
-	public static void UpdateContentOfAnswer(Manager manager) {
+	public static void UpdateContentOfAnswer(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException {
+		System.out.println(manager.getListOfQuestions());
+		System.out.println("Please select question: ");
+		Question selectedQuestion = manager.selectQuestion(input.nextInt());
 
-		int selectedQuestion = selectQuestion(manager); // Select question
-		if (selectedQuestion == -1)
-			return;
-
-		Question currentQuestion = manager.getQuestion(selectedQuestion); // current question
-
-		System.out.println("Please insert your new Answer content (make sure its a different one!):");
-		String newAnswer = input.next(); // answer string
-
+		
+		
+		
+		
+		
+		
 		boolean succeeded;
-		if (currentQuestion instanceof OpenQuestion) // if question is open Q
-			succeeded = manager.updateOpenAnswer(selectedQuestion, newAnswer);
-		else { // if question is American Q
-			int aNum = selectAmericanAnswer((AmericanQuestions) currentQuestion);
-			succeeded = manager.updateAmericanAnswer(selectedQuestion, aNum, newAnswer);
+		if (selectedQuestion instanceof OpenQuestion) { // if question is open Q
+			System.out.println("Please insert your new Answer content (make sure its a different one!):");
+			succeeded = manager.updateOpenQAnswer(((OpenQuestion) selectedQuestion).getAnswer(), input.next());
+		} else {											 // if question is American Q
+			System.out.println(((AmericanQuestions)selectedQuestion).printAnswers());
+			System.out.println("Please select Answer: ");
+			Answer selectedAnswer = manager.selectAmericanAnswer((AmericanQuestions)selectedQuestion, input.nextInt());
+			System.out.println("Please insert your new Answer content (make sure its a different one!):");
+			String newAnswer = input.next();
+			System.out.println("true or false");
+			Boolean trueOrFalse = input.nextBoolean();
+			succeeded = manager.updateAmericanQAnswer(selectedAnswer, newAnswer, trueOrFalse ,(AmericanQuestions)selectedQuestion);
 		}
 
 		if (!succeeded)
-			System.out.println("Your answer was identical");
+			System.out.println("Your answer content was identical \n");
 		else {
-			System.out.println("Your answer updated");
+			System.out.println("Your answer updated \n");
 		}
 
 	}

@@ -46,6 +46,27 @@ public class AmericanQuestions extends Question {
 		return allAnswers[aNum-1].setContent(content);
 	}
 	
+	//Decrease rightAnswerCounter
+	public void decreaseRightAnswersCounter(Answer answer) {
+		for(int i = 0; i < rightAnswers.length; i++) {
+			if(rightAnswers[i] != null)
+				if(answer.getContent().equals(rightAnswers[i].getContent())) {
+					rightAnswers[i] = null;
+					rightAnswerCounter--;
+			}
+		}
+	}
+	
+	//increase rightAnswerCounter
+	public void increaseRightAnswersCounter(Answer answer) {
+		for(int i = 0; i < rightAnswers.length; i++) {
+			if(rightAnswers[i] == null) {
+				rightAnswers[i] = answer;
+				rightAnswerCounter++;
+				return;
+			}
+		}
+	}
 	
 	//print Answer
 	@Override
@@ -119,6 +140,10 @@ public class AmericanQuestions extends Question {
 		if(rightAnswerCounter > 1 ) {
 			allAnswers[numOfAnswers-1].setRight(); //more than one answer is right 
 		    allAnswers[numOfAnswers-2].setFalse(); //none of the answers is false
+		    for(int i = 0; i < this.numOfAnswers - 1; i++){
+				if(this.allAnswers[i].isRight) 
+					allAnswers[i].setFalse();
+		    }
 		}
 		
 		if(rightAnswerCounter == 1) {
