@@ -65,7 +65,15 @@ public class Main {
 			}
 
 			case 3: { // Update content of an existing question
-				UpdateContentOfQuestion(manager);
+				try {
+					UpdateContentOfQuestion(manager);
+				} catch (DataNotCreatedYetException e) {
+					System.out.println(e.getMessage());
+				} catch (InvalidUserInputException e) {
+					System.out.println(e.getMessage());
+				} catch (QuestionIdenticalException e) {
+					System.out.println(e.getMessage());
+				}
 				break;
 			}
 
@@ -195,6 +203,8 @@ public class Main {
 					manager.addQuestionToExam(currentExam, createAmericanQ(manager));
 				else
 					manager.addQuestionToExam(currentExam, createOpenQ(manager));
+			
+			
 			} else {
 				System.out.println("Please select question: ");
 				manager.getListOfQuestions();
@@ -220,23 +230,18 @@ public class Main {
 	}
 
 	// 3 Update content of an existing question
-	public static void UpdateContentOfQuestion(Manager manager) {
+	public static void UpdateContentOfQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException, QuestionIdenticalException {
 
-		int selectedQuestion = selectQuestion(manager); // Select question
-		if (selectedQuestion == -1)
-			return;
+		manager.getListOfQuestions();
+		System.out.println("Please select question: ");
+		Question selectedQuestion = manager.selectQuestion(input.nextInt());
 
-		boolean keepasking = true;
-		while (keepasking) {
-			System.out.println("enter the updated question (no need to put a '?' at the end)");
-			String content = input.next();
-			if (manager.updateQuestionContent(content, selectedQuestion)) {
-				System.out.println("question " + selectedQuestion + " updated successfully! \n");
-				keepasking = false;
-			} else {
-				System.out.println("there is already a question in the exam with the same content \n");
-			}
-		}
+		System.out.println("enter the updated question content (no need to put a '?' at the end)");
+		String content = input.next();
+		
+		manager.updateQuestionContent(content, selectedQuestion); 
+			
+		
 	}
 
 	// 4 Update content of an existing answer

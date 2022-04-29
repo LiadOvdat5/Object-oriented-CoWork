@@ -5,6 +5,7 @@ import java.util.jar.Attributes.Name;
 import java.util.zip.CheckedInputStream;
 
 import javax.print.attribute.standard.DateTimeAtCreation;
+import javax.xml.transform.Templates;
 
 public class Manager {
 
@@ -281,16 +282,13 @@ public class Manager {
 	}
 	
 	// update Q content
-	public boolean updateQuestionContent(String content, int num) {
+	public boolean updateQuestionContent(String content, Question question) throws QuestionIdenticalException {
 		int contentExist = isContentExist(content);
 		if (contentExist != -1)
-			if (questionsArray[num - 1].getClass().getSimpleName()
-					.equals(questionsArray[contentExist].getClass().getSimpleName()))
-				return false;
+			if ( question.getQuestionType().equals( questionsArray[contentExist].getQuestionType() ) )	
+				throw new QuestionIdenticalException(question.getQuestionType());
 
-		questionsArray[num - 1].updateContent(content);
-
-		return true;
+		return question.updateContent(content);
 	}
 
 	
