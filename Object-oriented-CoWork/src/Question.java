@@ -23,6 +23,10 @@ public abstract class Question {
 	
 	//public void setSerialNum()
 	abstract String printAnswers();
+	public String getQuestionType()
+	{
+		return this.getClass().getSimpleName();
+	}
 	
 	//Check if answer provided is identical 
 	public abstract boolean checkAnswer(String cont, Answer ans);
@@ -32,7 +36,7 @@ public abstract class Question {
 		if(!(obj instanceof Question))
 			return false;
 		Question tempQuestion = (Question)obj;
-		if(this.content == tempQuestion.getContent() && this.getClass().getSimpleName().equals(tempQuestion.getClass().getSimpleName()) ) {
+		if(this.content.equals(tempQuestion.getContent()) && this.getQuestionType().equals(tempQuestion.getQuestionType()) ) {
 			return true;
 		}
 		return false;

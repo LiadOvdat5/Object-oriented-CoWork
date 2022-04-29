@@ -1,4 +1,5 @@
 import java.util.Currency;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.jar.Attributes.Name;
 
@@ -7,14 +8,21 @@ public class Main {
 
 	public static void main(String[] args) {
 		input.useDelimiter(System.getProperty("line.separator"));
+
+		Manager manager = new Manager();
+		try {
+			manager.questionsRepository();
+		} catch (Exception e) {
+			System.out.println("Repository had some problem");
+		}
 		
+
 		int selectedNumber;
 		final int EXIT = 8;
-		Manager manager = new Manager();
+
 
 		System.out.println(
-				"Please Enter the number of the program you want to exam: \r\n" 
-						+ "1 - Present all exams (all Q&A) \r\n" // V
+				"Please Enter the number of the program you want to exam: \r\n" + "1 - Present all exams (all Q&A) \r\n" // V
 						+ "2 - Add Question (to the Exam and or data base) \r\n" // V
 						+ "3 - Update content of an existing question\r\n" // V
 						+ "4 - Update content of an existing answer \r\n" // V
@@ -26,6 +34,8 @@ public class Main {
 
 		while (selectedNumber != EXIT) {
 			switch (selectedNumber) {
+			
+			
 
 			case 1: { // Present all exams (all Q&A)
 				System.out.println(manager.printAllQuestions());
@@ -33,7 +43,24 @@ public class Main {
 			}
 
 			case 2: { // Add Question (to the Exam and or data base)
-				addQuestion(manager);
+				try {
+					addQuestion(manager);
+
+				} catch (DataNotCreatedYetException e) {
+					System.out.println(e.getMessage());
+				} catch (InvalidUserInputException e) {
+					System.out.println(e.getMessage());
+				} catch (InputMismatchException e) {
+					System.out.println("Number is needed");
+					input.nextLine();
+				} catch (QuestionIdenticalException e) {
+					System.out.println(e.getMessage());
+				}
+				catch (Exception e) {
+					System.out.println("Something went wrong, try again");
+					input.nextLine();
+				}
+
 				break;
 			}
 
@@ -63,32 +90,43 @@ public class Main {
 				manager.generateAutomaticExam(numOfQ);
 				break;
 			}
-			case 8: {
-
+			
 			}
-			}
-
+			
 			System.out.println("Please Enter the number of the program you want to exam: \r\n"
 					+ "1 - Present all exams (all Q&A) \r\n" + "2 - Add Question to the Exam \r\n"
 					+ "3 - Update content of an existing question\r\n" + "4 - Update content of an existing answer \r\n"
 					+ "5 - Delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n"
 					+ "7 - Create exam automatically \r\n" + "8 - Exit");
 			selectedNumber = input.nextInt();
-
+			
+			
+			
+			
+	
+		
 		}
-
+		
+		
 		System.out.println("\n \n");
 		System.out.println("Hope you enjoined the program !");
+		
+		
+		
+}
+		
 
-	}
+	
 
 	// Create American Q
-	public static int createAmericanQ(Manager manager) {
+	public static Question createAmericanQ(Manager manager)
+			throws InvalidUserInputException, QuestionIdenticalException {
 		System.out.println("What is the American question, question content ? ");
 		String qContent = input.next();
 
 		System.out.println("how many answers? (up to 8) "); // Option for exception - no more than 8 answers provided
 		int numOfAnswers = input.nextInt();
+		manager.checkValidRange(numOfAnswers, 1, 8);
 
 		Answer[] ansArray = new Answer[numOfAnswers]; // create array of answers
 
@@ -101,12 +139,13 @@ public class Main {
 			ansArray[j] = new Answer(aContent, trueOrFalse);
 
 		}
-		manager.addAmericanQToArray(qContent, ansArray);
-		return manager.getNumOfQ();
+
+		return manager.addAmericanQToRepository(qContent, ansArray);
+
 	}
 
 	// Create Open Q
-	public static int createOpenQ(Manager manager) {
+	public static Question createOpenQ(Manager manager) throws QuestionIdenticalException {
 
 		System.out.println("What is the Open question, question content ? ");
 		String qContent = input.next();
@@ -114,33 +153,12 @@ public class Main {
 		System.out.println("Answer content");
 		String aContent = input.next();
 
-		manager.addOpenQToArray(qContent, aContent);
-		return manager.getNumOfQ();
+		return manager.addOpenQToRepository(qContent, aContent);
+
 	}
 
-	
-
-	// Select Question
-	public static int selectQuestion(Manager manager) {
-		int choice = -1, numOfQ = manager.getNumOfQ();
-		if (numOfQ == 0) {
-			System.out.println("There are no questions \n");
-			return -1;
-		}
-		System.out.println("Which Question whould you like to choose?");
-		System.out.println(manager.getListOfQuestions()); // print all questions
-		choice = input.nextInt();
-
-		while (choice < 1 || choice > numOfQ) {
-			System.out.println("Choose proper question");
-			choice = input.nextInt();
-		}
-		return choice;
-	}
-
-	
 	// Select American Answer
-	public static int selectAmericanAnswer(AmericanQuestions q) { 
+	public static int selectAmericanAnswer(AmericanQuestions q) {
 		int choice = -1, numOfA = q.getNumOfAnswers();
 
 		System.out.println("Which Answer whould you like to choose?");
@@ -152,44 +170,52 @@ public class Main {
 			choice = input.nextInt();
 		}
 		return choice;
-	
+
 	}
-	
+
 	// 2 Add Question (to the Exam and or data base)
-	public static void addQuestion(Manager manager) {
-		int currentExam = -1;
-		int questionLocation = -1;
-		while (questionLocation != 1 && questionLocation != 2) {
-			System.out.println("Would you like to: \n1) Add new question to Exam  \n2) Add Question from database"
-					+ " to exam \n3) Add question Only to Database  ");
-			questionLocation = input.nextInt();
-		}
+	public static void addQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException,
+			QuestionIdenticalException, InputMismatchException {
+
+		System.out.println("Would you like to: \n1) Add new question to Exam  \n2) Add Question from database"
+				+ " to exam \n3) Add question Only to Database  ");
+		int questionLocation = input.nextInt();
+		manager.checkValidRange(questionLocation, 1, 3);
+
 		if (questionLocation == 1 || questionLocation == 2) {
-			currentExam = 1; //selectExam(manager);
-			if (currentExam == -1)
-				questionLocation = 3;
+			manager.getListOfExams();
+			System.out.println("Please select exam: ");
 
-		}
+			Exam currentExam = manager.selectExam(input.nextInt()); // selectExam(manager);
+			if (questionLocation == 1) {
+				System.out.println("Press 1 for American Q and 2 for Open Q");
+				int choice = input.nextInt();
+				manager.checkValidRange(choice, 1, 2);
+				if (choice == 1)
+					manager.addQuestionToExam(currentExam, createAmericanQ(manager));
+				else
+					manager.addQuestionToExam(currentExam, createOpenQ(manager));
+			} else {
+				System.out.println("Please select question: ");
+				manager.getListOfQuestions();
 
-		if (questionLocation == 2) {
-			int selectQuestion = selectQuestion(manager);
-			manager.addQestionToExam(currentExam, selectQuestion);
-		}
+				manager.addQuestionToExam(currentExam, manager.selectQuestion(input.nextInt())); // add to current exam
+																									// the current
+																									// question if
+																									// checks
 
-		int choice = -1;
-		while (choice != 1 && choice != 2) {
+			}
+		} else {
 			System.out.println("Press 1 for American Q and 2 for Open Q");
-			choice = input.nextInt();
+			int choice = input.nextInt();
+			manager.checkValidRange(choice, 1, 2);
+			if (choice == 1)
+				createAmericanQ(manager);
+			else
+				createOpenQ(manager);
 		}
-
-		if (questionLocation == 1 && choice == 1)
-			manager.addQestionToExam(currentExam, createAmericanQ(manager));
-		else if (questionLocation == 1 && choice == 2)
-			manager.addQestionToExam(currentExam, createOpenQ(manager));
-		else if (questionLocation == 3 && choice == 1)
-			createAmericanQ(manager);
-		else if (questionLocation == 3 && choice == 2)
-			createOpenQ(manager);
+		
+		return;
 
 	}
 
@@ -219,38 +245,35 @@ public class Main {
 		int selectedQuestion = selectQuestion(manager); // Select question
 		if (selectedQuestion == -1)
 			return;
-		
-		Question currentQuestion = manager.getQuestion(selectedQuestion); //current question
-		
+
+		Question currentQuestion = manager.getQuestion(selectedQuestion); // current question
+
 		System.out.println("Please insert your new Answer content (make sure its a different one!):");
-		String newAnswer = input.next(); //answer string 
-		
+		String newAnswer = input.next(); // answer string
+
 		boolean succeeded;
-		if(currentQuestion instanceof OpenQuestion) //if question is open Q
-			succeeded =  manager.updateOpenAnswer(selectedQuestion, newAnswer);
-		else {  									//if question is American Q
-			int aNum = selectAmericanAnswer((AmericanQuestions)currentQuestion);
-			succeeded =  manager.updateAmericanAnswer(selectedQuestion, aNum, newAnswer);
+		if (currentQuestion instanceof OpenQuestion) // if question is open Q
+			succeeded = manager.updateOpenAnswer(selectedQuestion, newAnswer);
+		else { // if question is American Q
+			int aNum = selectAmericanAnswer((AmericanQuestions) currentQuestion);
+			succeeded = manager.updateAmericanAnswer(selectedQuestion, aNum, newAnswer);
 		}
-		
-		if(!succeeded)
+
+		if (!succeeded)
 			System.out.println("Your answer was identical");
 		else {
 			System.out.println("Your answer updated");
 		}
-		
+
 	}
 
 	// 5 delete an answer to an existing question
 	public static void deleteAnswerFromQuestion(Manager manager) {
-		
 
 		int selectedQuestion = selectQuestion(manager); // Select question
 		if (selectedQuestion == -1)
 			return;
 
-		
-		
 		if (manager.getQuestion(selectedQuestion) instanceof OpenQuestion) {
 			System.out.println(
 					"Deleting the answer of Open question will delete the question, for not deleting press 1, otherwise press 2");
@@ -259,15 +282,13 @@ public class Main {
 			} else {
 				if (manager.deleteQuestion(selectedQuestion))
 					System.out.println("The question deleted succesfully! ");
-				else 
+				else
 					System.out.println("The was not question deleted ");
 			}
 
 		} else if (manager.getQuestion(selectedQuestion) instanceof AmericanQuestions) {
-			int aNum = selectAmericanAnswer((AmericanQuestions)(manager.getQuestion(selectedQuestion)));
-			AmericanQuestions tempAmericanQuestion = (AmericanQuestions)manager.getQuestion(selectedQuestion);
-
-			
+			int aNum = selectAmericanAnswer((AmericanQuestions) (manager.getQuestion(selectedQuestion)));
+			AmericanQuestions tempAmericanQuestion = (AmericanQuestions) manager.getQuestion(selectedQuestion);
 
 			Boolean deleted = tempAmericanQuestion.deleteAnswer(aNum);
 			if (deleted)
