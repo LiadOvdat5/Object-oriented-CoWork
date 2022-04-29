@@ -299,17 +299,31 @@ public class Manager {
 			return true;
 		}
 		
-	
-	// to string
-	public String toString() {// To String - print;
-		StringBuffer sBuffer = new StringBuffer();
-
-		sBuffer.append("There are " + this.numOfExams + " Exams: \n");
-
-		for (int i = 0; i < numOfExams; i++) {
-			sBuffer.append(allExams[i].toString());
+		
+	// Select Exam
+	public 	void selectExam(int examNum) {
+		if (this.numOfExams == 0) {
+			System.out.println("you have no exams ! \n");
+			//
 		}
 
+		int numOfExam = -1;
+		while (numOfExam < 1 || numOfExam > this.numOfExams) {
+			System.out.println("choose the num of the exam you want to deal with \n" + this.numOfExams);
+			//numOfExam = input.nextInt();
+		}
+		return ;
+	}	
+	
+	// to string
+	public String printAllQuestions() {// To String - print;
+		StringBuffer sBuffer = new StringBuffer();
+
+		sBuffer.append("There are " + this.numOfQuestions + " Questions: \n");
+
+		for (int i = 0; i < numOfQuestions; i++) {
+			sBuffer.append((i + 1) + ") " + questionsArray[i].toString() + "\n");
+		}
 		return sBuffer.toString();
 	}
 

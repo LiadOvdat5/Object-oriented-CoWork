@@ -13,7 +13,8 @@ public class Main {
 		Manager manager = new Manager();
 
 		System.out.println(
-				"Please Enter the number of the program you want to exam: \r\n" + "1 - Present all exams (all Q&A) \r\n" // V
+				"Please Enter the number of the program you want to exam: \r\n" 
+						+ "1 - Present all exams (all Q&A) \r\n" // V
 						+ "2 - Add Question (to the Exam and or data base) \r\n" // V
 						+ "3 - Update content of an existing question\r\n" // V
 						+ "4 - Update content of an existing answer \r\n" // V
@@ -27,7 +28,7 @@ public class Main {
 			switch (selectedNumber) {
 
 			case 1: { // Present all exams (all Q&A)
-				System.out.println(manager.toString());
+				System.out.println(manager.printAllQuestions());
 				break;
 			}
 
@@ -117,22 +118,7 @@ public class Main {
 		return manager.getNumOfQ();
 	}
 
-	// Select Exam
-	public static int selectExam(Manager m) {
-
-		if (m.getNumOfExams() == 0) {
-			System.out.println("you have no exams ! \n");
-			return -1;
-		}
-
-		int numOfExam = -1;
-		while (numOfExam < 1 || numOfExam > m.getNumOfExams()) {
-			System.out.println("choose the num of the exam you want to deal with \n" + m.getListOfExams());
-			numOfExam = input.nextInt();
-		}
-		return numOfExam;
-
-	}
+	
 
 	// Select Question
 	public static int selectQuestion(Manager manager) {
@@ -179,7 +165,7 @@ public class Main {
 			questionLocation = input.nextInt();
 		}
 		if (questionLocation == 1 || questionLocation == 2) {
-			currentExam = selectExam(manager);
+			currentExam = 1; //selectExam(manager);
 			if (currentExam == -1)
 				questionLocation = 3;
 

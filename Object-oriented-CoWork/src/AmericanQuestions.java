@@ -15,9 +15,9 @@ public class AmericanQuestions extends Question {
 		
 		
 		this.rightAnswerCounter = 0; //add right answer to Eg. 0 and increase addrightAnswer by 1
-		for(int i = 0; i<allAnswers.length; i++) { //check number of right answers
-			if(allAnswers[i].getIsRight()) {
-				this.rightAnswers[rightAnswerCounter++] = allAnswers[i]; // Right answers will be same answers from all answers array
+		for(int i = 0; i<answers.length; i++) { //check number of right answers
+			if(answers[i].getIsRight()) {
+				this.rightAnswers[rightAnswerCounter++] = answers[i]; // Right answers will be same answers from all answers array
 				
 			}
 		}
