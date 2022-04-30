@@ -51,7 +51,7 @@ public class Main {
 				} catch (InvalidUserInputException e) {
 					System.out.println(e.getMessage());
 				} catch (InputMismatchException e) {
-					System.out.println("Number is needed");
+					System.out.println("you were asked to enter a number");
 					input.nextLine();
 				} catch (QuestionIdenticalException e) {
 					System.out.println(e.getMessage());
@@ -256,7 +256,7 @@ public class Main {
 			Answer selectedAnswer = manager.selectAmericanAnswer((AmericanQuestions)selectedQuestion, input.nextInt());
 			System.out.println("Please insert your new Answer content (make sure its a different one!):");
 			String newAnswer = input.next();
-			System.out.println("true or false");
+			System.out.println("true or false?");
 			Boolean trueOrFalse = input.nextBoolean();
 			succeeded = manager.updateAmericanQAnswer(selectedAnswer, newAnswer, trueOrFalse ,(AmericanQuestions)selectedQuestion);
 		}

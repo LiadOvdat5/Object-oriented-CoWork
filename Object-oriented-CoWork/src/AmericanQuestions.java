@@ -47,7 +47,7 @@ public class AmericanQuestions extends Question {
 	}
 	
 	//Decrease rightAnswerCounter
-	public void decreaseRightAnswersCounter(Answer answer) {
+	public void RemoveAndDecreaseRightAnswersCounter(Answer answer) {
 		for(int i = 0; i < rightAnswers.length; i++) {
 			if(rightAnswers[i] != null)
 				if(answer.getContent().equals(rightAnswers[i].getContent())) {
@@ -131,22 +131,21 @@ public class AmericanQuestions extends Question {
 	//Check if there is any true answer
 	public void checkForTrueAnswer() {
 		
-		if(rightAnswerCounter == 0) {
-			allAnswers[numOfAnswers-2].setRight(); //none of the answers is right
-			allAnswers[numOfAnswers-1].setFalse(); //more than one answer is false 
+		if(this.rightAnswerCounter == 0) {
+			this.allAnswers[this.numOfAnswers-2].setRight(); //none of the answers is right
+			this.allAnswers[this.numOfAnswers-1].setFalse(); //more than one answer is false 
 			
 		}
 		
-		if(rightAnswerCounter > 1 ) {
-			allAnswers[numOfAnswers-1].setRight(); //more than one answer is right 
-		    allAnswers[numOfAnswers-2].setFalse(); //none of the answers is false
-		    for(int i = 0; i < this.numOfAnswers - 1; i++){
+		if(this.rightAnswerCounter > 1 ) {
+			this.allAnswers[this.numOfAnswers-1].setRight(); //more than one answer is right 
+		    for(int i = 0; i < this.numOfAnswers - 1; i++){	 // all other answers are false
 				if(this.allAnswers[i].isRight) 
-					allAnswers[i].setFalse();
+					this.allAnswers[i].setFalse();
 		    }
 		}
 		
-		if(rightAnswerCounter == 1) {
+		if(this.rightAnswerCounter == 1) {
 		    allAnswers[numOfAnswers-2].setFalse(); //none of the answers is false
 			allAnswers[numOfAnswers-1].setFalse(); //more than one answer is false 
 			for(int i = 0; i < this.rightAnswerCounter; i++) { //Set the only right answer to right

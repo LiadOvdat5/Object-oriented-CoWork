@@ -208,8 +208,8 @@ public class Manager {
 
 	// check if question Exists
 	public boolean isQuestionExist(Question q) {
-		for (int i = 0; i < numOfQuestions; i++)
-			if (questionsArray[i].equals(q))
+		for (int i = 0; i < this.numOfExams; i++)
+			if (this.questionsArray[i].equals(q))
 				return true;
 
 		return false;
@@ -274,8 +274,8 @@ public class Manager {
 
 	// Check if the content exists
 	public int isContentExist(String content) {
-		for (int i = 0; i < numOfQuestions; i++)
-			if (content.equals(questionsArray[i].getContent()))
+		for (int i = 0; i < this.numOfQuestions; i++)
+			if (content.equals(this.questionsArray[i].getContent()))
 				return i;
 
 		return -1;
@@ -283,9 +283,9 @@ public class Manager {
 	
 	// update Q content
 	public boolean updateQuestionContent(String content, Question question) throws QuestionIdenticalException {
-		int contentExist = isContentExist(content);
-		if (contentExist != -1)
-			if ( question.getQuestionType().equals( questionsArray[contentExist].getQuestionType() ) )	
+		int contentExistLocation = isContentExist(content);
+		if (contentExistLocation != -1)
+			if (question.getQuestionType().equals(this.questionsArray[contentExistLocation].getQuestionType() ) )	
 				throw new QuestionIdenticalException(question.getQuestionType());
 
 		return question.updateContent(content);
@@ -308,7 +308,7 @@ public class Manager {
 	public boolean updateAmericanQAnswer(Answer answer ,String aContent, boolean isRight, AmericanQuestions question) {
 		
 		if(!isRight && answer.isRight) { //if new answer is false but original was right
-			question.decreaseRightAnswersCounter(answer);
+			question.RemoveAndDecreaseRightAnswersCounter(answer);
 			answer.setFalse();
 		}
 		else if(isRight && !answer.isRight) { //if new answer is right but original was false
