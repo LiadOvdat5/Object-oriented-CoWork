@@ -6,7 +6,7 @@ import java.util.jar.Attributes.Name;
 public class Main {
 	static Scanner input = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DataNotCreatedYetException {
 		input.useDelimiter(System.getProperty("line.separator"));
 
 		Manager manager = new Manager();
@@ -90,8 +90,17 @@ public class Main {
 			}
 
 			case 5: { // delete answer to existing question
-				deleteAnswerFromQuestion(manager);
+				try {
+					deleteAnswerFromQuestion(manager);
+				} catch (DataNotCreatedYetException e) {
+					System.out.println(e.getMessage());
+				} catch (InvalidUserInputException e) {
+					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
+				}
 				break;
+				
+				
 			}
 
 			case 6: { // Create exam manually
@@ -132,6 +141,14 @@ public class Main {
 		
 
 	
+
+	private static void createExamManually(Manager manager) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 
 	// Create American Q
 	public static Question createAmericanQ(Manager manager)
@@ -253,7 +270,7 @@ public class Main {
 		} else {											 // if question is American Q
 			System.out.println(((AmericanQuestions)selectedQuestion).printAnswers());
 			System.out.println("Please select Answer: ");
-			Answer selectedAnswer = manager.selectAmericanAnswer((AmericanQuestions)selectedQuestion, input.nextInt());
+			Answer selectedAnswer = manager.selectAmericanAnswerandReturnAnswer((AmericanQuestions)selectedQuestion, input.nextInt());
 			System.out.println("Please insert your new Answer content (make sure its a different one!):");
 			String newAnswer = input.next();
 			System.out.println("true or false?");
@@ -270,42 +287,63 @@ public class Main {
 	}
 
 	// 5 delete an answer to an existing question
-	public static void deleteAnswerFromQuestion(Manager manager) {
+	public static void deleteAnswerFromQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException {
+		System.out.println(manager.getListOfQuestions());
+		System.out.println("Please select the question you want to delete its answer: ");
+		int questionPosition = input.nextInt();
+		Question selectedQuestion = manager.selectQuestion(questionPosition);
 
-		int selectedQuestion = selectQuestion(manager); // Select question
-		if (selectedQuestion == -1)
-			return;
+		
 
-		if (manager.getQuestion(selectedQuestion) instanceof OpenQuestion) {
-			System.out.println(
-					"Deleting the answer of Open question will delete the question, for not deleting press 1, otherwise press 2");
-			if (input.nextInt() == 1) {
-				return;
-			} else {
-				if (manager.deleteQuestion(selectedQuestion))
-					System.out.println("The question deleted succesfully! ");
-				else
-					System.out.println("The was not question deleted ");
-			}
-
-		} else if (manager.getQuestion(selectedQuestion) instanceof AmericanQuestions) {
-			int aNum = selectAmericanAnswer((AmericanQuestions) (manager.getQuestion(selectedQuestion)));
-			AmericanQuestions tempAmericanQuestion = (AmericanQuestions) manager.getQuestion(selectedQuestion);
-
-			Boolean deleted = tempAmericanQuestion.deleteAnswer(aNum);
-			if (deleted)
-				System.out.println("The answer deleted succesfully! ");
-
-			if (tempAmericanQuestion.getNumOfAnswers() <= 2) { // TODO: relocate in Manager ?
-				System.out.println("There are only auto answers, Question is deleted! ");
-				manager.deleteQuestion(selectedQuestion);
-			}
-
+		if (selectedQuestion instanceof OpenQuestion) {
+			System.out.println("note that deleting an answer to an open Question will also delete the question itself \n" +
+					"(1 continue \n (2 cancel");
+			int choice = input.nextInt();
+			 manager.checkValidRange(choice, 1, 2);
+			 if(choice == 1)
+			 {
+				 manager.deleteQuestion(questionPosition);
+				 System.out.println("Question deleted successfully");
+			 }
+			 else {
+				 return;
+			 }
+				 
+				 
+				 
+					
+		} else if(selectedQuestion instanceof AmericanQuestions) {
+			AmericanQuestions tempQ =  (AmericanQuestions)selectedQuestion;
+			System.out.println("note that if you delete an answer and you are left with only 2 auto answers,then the question will be deleted also. \n"+
+					"(1 continue \n (2 cancel");
+			
+			int choice = input.nextInt();
+			 manager.checkValidRange(choice, 1, 2);
+			 if(choice == 1) {
+				 System.out.println(tempQ.printAnswers());
+				 int currentAnswerPosition = input.nextInt();
+				 manager.checkAmericanAnswer(tempQ,currentAnswerPosition);
+				 Answer answer = manager.selectAmericanAnswerandReturnAnswer(tempQ, currentAnswerPosition);
+					Boolean deleted = manager.deleteAmericanQAnswer(tempQ,questionPosition,answer,currentAnswerPosition);
+					if (deleted) {
+						System.out.println("The answer deleted succesfully! ");
+					}
+					else {
+						System.out.println("Question deleted");
+					}
+			 }
+			 else {
+				 
+				 return;
+			 }
+			
+			
+		
 		}
 
 	}
 
-	// 6
+	/*// 6
 	public static void createExamManually(Manager manager) {
 		System.out.println("pick a name for the exam");
 		String examName = input.next();
@@ -327,6 +365,6 @@ public class Main {
 			qArray[i] = manager.getQuestion(createOpenQ(manager)); // add Open question to exam
 
 		manager.generateExam(examName, qArray);
-	}
+	}*/
 
 }

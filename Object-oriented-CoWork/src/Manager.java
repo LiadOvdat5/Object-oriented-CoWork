@@ -290,11 +290,31 @@ public class Manager {
 
 		return question.updateContent(content);
 	}
-
+	
 	
 	//Get Question 
 	public Question getQuestion(int num) {
 		return questionsArray[num-1];
+	}
+	
+	public boolean deleteQuestion(int position)
+	{
+		if(position == this.numOfQuestions - 1)
+		{
+			this.questionsArray[position - 1] = null;
+			this.numOfQuestions--;
+		}
+		else
+		{
+			this.questionsArray[position - 1] = null;
+			for(int i = position - 1; i < this.numOfQuestions - 1; i++)
+			{
+				this.questionsArray[i] = this.questionsArray[i+1];
+			}
+			this.numOfQuestions--;
+			
+		}
+		return true;
 	}
 	
 	
@@ -321,19 +341,8 @@ public class Manager {
 	}
 		
 	
-	// Delete Question (delete answer of open Q)
-		public boolean deleteQuestion(int qNum) {
-			if(qNum == numOfQuestions) {
-				questionsArray[qNum-1] = null;
-				numOfQuestions--;
-				return true;
-			}
-			for(int i = qNum-1; i < numOfQuestions-1; i++) {
-				questionsArray[i] = questionsArray[i+1];
-			}
-			questionsArray[numOfQuestions-1] = null;
-			return true;
-		}
+	// Delete Answer (delete answer of open Q)
+		
 		
 		
 	// Select Exam
@@ -348,9 +357,8 @@ public class Manager {
 	}	
 	
 	// Select Question
-	public 	Question selectQuestion(int qNum) throws DataNotCreatedYetException, InvalidUserInputException {
-		if (this.numOfQuestions == 0) 
-			throw new DataNotCreatedYetException("question");
+	public Question selectQuestion(int qNum) throws InvalidUserInputException {
+		
 		
 		if(qNum < 1 || qNum > this.numOfQuestions) 
 			throw new InvalidUserInputException("question");
@@ -359,13 +367,33 @@ public class Manager {
 	}	
 	
 	// Select American Answer
-	public Answer selectAmericanAnswer(AmericanQuestions question,int aNum) throws InvalidUserInputException {
-		if(aNum < 1 || aNum > question.getNumOfAnswers()) 
-			throw new InvalidUserInputException("answer");
+	public Answer selectAmericanAnswerandReturnAnswer(AmericanQuestions question,int aNum) throws InvalidUserInputException {
 		
+		checkAmericanAnswer(question, aNum);
 		return question.getAnswer(aNum);
 
 		}
+	
+	public void checkAmericanAnswer(AmericanQuestions question, int aNum)throws InvalidUserInputException{
+	
+		if(aNum < 1 || aNum > question.getNumOfAnswers()) 
+			throw new InvalidUserInputException("answer");
+		
+	}
+	
+	
+	public boolean deleteAmericanQAnswer(AmericanQuestions q , int qPosition, Answer answer,int aPosition)
+	{
+		if(q.getNumOfAnswers() == 3)
+		{
+			  deleteQuestion(qPosition);
+			  return false;
+		}
+		else
+		{
+			return q.deleteAmericanAnswer(answer,aPosition);
+		}
+	}
 	
 	//Select 1 for American 2 for open
 	public int checkValidRange(int typeN, int min, int max) throws InvalidUserInputException {
@@ -375,8 +403,10 @@ public class Manager {
 	}
 	
 	// to string
-	public String printAllQuestions() {// To String - print;
+	public String printAllQuestions()  throws DataNotCreatedYetException {// To String - print;
 		StringBuffer sBuffer = new StringBuffer();
+		if (this.numOfQuestions == 0) 
+			throw new DataNotCreatedYetException("questions");
 
 		sBuffer.append("There are " + this.numOfQuestions + " Questions: \n");
 

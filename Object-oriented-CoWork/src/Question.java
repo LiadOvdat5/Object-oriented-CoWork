@@ -22,7 +22,7 @@ public abstract class Question {
 	}
 	
 	//public void setSerialNum()
-	abstract String printAnswers();
+	abstract String printAnswers() throws DataNotCreatedYetException;
 	public String getQuestionType()
 	{
 		return this.getClass().getSimpleName();

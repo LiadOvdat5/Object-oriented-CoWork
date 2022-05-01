@@ -70,7 +70,10 @@ public class AmericanQuestions extends Question {
 	
 	//print Answer
 	@Override
-	public String printAnswers() {
+	public String printAnswers() throws DataNotCreatedYetException {
+		if(this.numOfAnswers == 2) {
+			throw new DataNotCreatedYetException("answers");
+		}
 		StringBuffer sBuffer = new StringBuffer();
 		for(int i = 0; i < numOfAnswers-2; i++) {
 			sBuffer.append((i+1) +") "  + allAnswers[i].getContent() + "\n");
@@ -96,36 +99,24 @@ public class AmericanQuestions extends Question {
 	
 	
 	
-	//Delete Answer
-	public boolean deleteAnswer(int aNum) {
-		boolean match = false;
-		int currentRightAnswerNum = 0;
-		while(!match && currentRightAnswerNum != this.rightAnswerCounter) {
-			if(checkAnswer(this.allAnswers[aNum].getContent(), this.rightAnswers[currentRightAnswerNum]) ) {
-				this.rightAnswers[currentRightAnswerNum] = null;
-				this.rightAnswerCounter--;
-				match = true;
-			}
-			currentRightAnswerNum++;
+	//Delete Answer American Question
+	public boolean deleteAmericanAnswer(Answer answer ,int aPosition) {
+		this.allAnswers[aPosition - 1] = null;
+		for(int i = aPosition - 1; i < this.numOfAnswers - 3; i++)
+		{
+			this.allAnswers[i] = this.allAnswers[i+1];
 		}
+		this.numOfAnswers--;
+		if(answer.getIsRight()) {
 		
-		
-		if(aNum == this.numOfAnswers - 2) { //Standart Delete
-			this.allAnswers[aNum-1] = null;
-			numOfAnswers--;
-			return true;
+			RemoveAndDecreaseRightAnswersCounter(answer);
 		}
-		for(int i = aNum-1; i < numOfAnswers-1; i++)
-			allAnswers[i] = allAnswers[i+1];
-		
-		allAnswers[numOfAnswers-1] = null;
-		numOfAnswers--;
-		
 		checkForTrueAnswer();
-		
 		return true;
-			
-		}
+	}
+	
+	
+	
 
 
 	//Check if there is any true answer
@@ -158,6 +149,8 @@ public class AmericanQuestions extends Question {
 		
 		
 	}
+	
+	
 
 	
 	

@@ -32,6 +32,19 @@ public class Answer {
 		return true;
 		
 	}
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof Answer)) {
+			return false;
+		}
+		Answer a = (Answer)obj;
+		if(this.content == a.getContent() && this.isRight ==a.getIsRight()) {
+			return true;
+			
+		}
+		return false;
+	}
 	
 	
 	public String toString() { //To String - print answer;
