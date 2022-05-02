@@ -27,25 +27,12 @@ public class Manager {
 	public void AddExamToArray(Exam exam) {
 		if (this.numOfExams == this.allExams.length)
 			this.allExams = Arrays.copyOf(this.allExams, this.numOfExams * 2);
-		this.allExams[this.numOfExams++] = new Exam(exam);
+		this.allExams[this.numOfExams++] = exam;
 		
 
 	}
 
-	/*/ generate new Exam manually
-	public void generateExam(Exam exam) throws DataIdenticalException { // (Scheme) EXAM > QUES ARRAY > QUES
-																			// (AMERICAN OR OPEN) > IF AMERICAN
-		// - ANS ARRAY
-		ExamSpace(nameOfExam); // Create Exam
-		Exam currentExam = allExams[numOfExams - 1]; // pointer
-		for (int i = 0; i < dataFromUser.length; i++) // loop that adds the questions from the user to the current exam.
-		{
-			currentExam.addQuestion(dataFromUser[i]);
-		}
-
-		System.out.println(currentExam.toString());
-
-	}*/
+	
 
 	public void questionsRepository() throws DataIdenticalException {
 		questionsArray = new Question[20];
@@ -145,24 +132,25 @@ public class Manager {
 
 	}
 
-	/*/ generate automatic Exam
-	public Exam generateAutomaticExam(int numOfQ) throws DataIdenticalException {
+	// generate automatic Exam
+	public void generateAutomaticExam(int numOfQ, String examName) throws DataIdenticalException {
+		Exam automaticExam = new Exam(examName) ; // new exam
+		isExamNameExists(automaticExam);
 		
-		Exam currentExam  // pointer
-
 		int max = questionsArray.length - 1, min = 0;
-		for (int i = 0; i < numOfQ; i++) { // loop of Q
-			boolean b = false;
-			while (!b) {
-				Question question = questionsArray[(int) (Math.random() * (max - min + 1) + min)];
-				b = currentExam.addQuestion(question);
+		for (int i = 0; i < numOfQ; i++) { 
+			Question question = questionsArray[(int) (Math.random() * (max - min + 1) + min)];
+			try {
+				addQuestionToExam(automaticExam, question);
+			} catch (Exception e) {
+				i--;
 			}
-
 		}
-
 		
-
-	}*/
+		AddExamToArray(automaticExam);
+		
+		
+	}
 
 	// Print Exams Name and Num
 	public String getListOfExams() throws DataNotCreatedYetException {// To String - print;
@@ -215,6 +203,15 @@ public class Manager {
 		return false;
 
 	}
+	
+	// check if question Exists
+	public boolean isExamNameExists(Exam exam) throws DataIdenticalException {
+		for (int i = 0; i < this.numOfExams; i++)
+			if (this.allExams[i].equals(exam))
+				throw new DataIdenticalException("exam name");
+		return false;
+
+		}
 
 	/*/ add American Question to questions array - WE DONT USE IN PROGRAM
 	public boolean addAmericanQToArray(String qContent, Answer[] ansArray) {

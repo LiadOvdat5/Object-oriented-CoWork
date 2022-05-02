@@ -2,11 +2,12 @@ import java.util.Currency;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.jar.Attributes.Name;
+import java.util.stream.IntStream;
 
 public class Main {
 	static Scanner input = new Scanner(System.in);
 
-	public static void main(String[] args) throws DataNotCreatedYetException, DataIdenticalException {
+	public static void main(String[] args) {
 		input.useDelimiter(System.getProperty("line.separator"));
 
 		Manager manager = new Manager();
@@ -19,111 +20,54 @@ public class Main {
 		int selectedNumber;
 		final int EXIT = 8;
 
-		System.out.println(
-				"Please Enter the number of the program you want to exam: \r\n" + "1 - Present database and exmas (all Q&A) \r\n" // V
-						+ "2 - Add Question (to the Exam and or data base) \r\n" // V
-						+ "3 - Update content of an existing question\r\n" // V
-						+ "4 - Update content of an existing answer \r\n" // V
-						+ "5 - delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n" // V
-						+ "7 - Create exam automatically \r\n" // V
-						+ "8 - Exit");
+		System.out.println("Please Enter the number of the program you want to exam: \r\n"
+				+ "1 - Present database and exmas (all Q&A) \r\n" // V
+				+ "2 - Add Question (to the Exam and or data base) \r\n" // V
+				+ "3 - Update content of an existing question\r\n" // V
+				+ "4 - Update content of an existing answer \r\n" // V
+				+ "5 - delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n" // V
+				+ "7 - Create exam automatically \r\n" // V
+				+ "8 - Exit");
 
 		selectedNumber = input.nextInt();
 
 		while (selectedNumber != EXIT) {
-			switch (selectedNumber) {
-
-			case 1: { // Present all exams (all Q&A)
-				try {
-					PresentInfo(manager);
-			}catch (DataNotCreatedYetException e) {
-				System.out.println(e.getMessage());
-			} catch (InvalidUserInputException e) {
-				System.out.println(e.getMessage());
-			}
-				break;
-			}
-			case 2: { // Add Question (to the Exam and or data base)
-				try {
-					addQuestion(manager);
-
-				} catch (DataNotCreatedYetException e) {
-					System.out.println(e.getMessage());
-				} catch (InvalidUserInputException e) {
-					System.out.println(e.getMessage());
-				} catch (InputMismatchException e) {
-					System.out.println("you were asked to enter a number");
-					input.nextLine();
-				} catch (DataIdenticalException e) {
-					System.out.println(e.getMessage());
-				} catch (Exception e) {
-					System.out.println("Something went wrong, try again");
-					input.nextLine();
-				}
-
-				break;
-			}
-
-			case 3: { // Update content of an existing question
-				try {
-					UpdateContentOfQuestion(manager);
-
-				} catch (DataNotCreatedYetException e) {
-					System.out.println(e.getMessage());
-				} catch (InvalidUserInputException e) {
-					System.out.println(e.getMessage());
-				} catch (InputMismatchException e) {
-					System.out.println("you were asked to enter a number");
-					input.nextLine();
-				} catch (DataIdenticalException e) {
-					System.out.println(e.getMessage());
-				} catch (Exception e) {
-					System.out.println("Something went wrong, try again");
-					input.nextLine();
-				}
-
-				break;
-			}
-
-			case 4: { // Update content of an existing answer
-				try {
-					UpdateContentOfAnswer(manager);
-
-				} catch (DataNotCreatedYetException e) {
-					System.out.println(e.getMessage());
-				} catch (InvalidUserInputException e) {
-					System.out.println(e.getMessage());
-				} catch (InputMismatchException e) {
-					System.out.println("you were asked to enter a number");
-					input.nextLine();
-				} catch (DataIdenticalException e) {
-					System.out.println(e.getMessage());
-				} catch (Exception e) {
-					System.out.println("Something went wrong, try again");
-					input.nextLine();
-				}
-
-				break;
-			}
-
-			case 5: { // delete answer to existing question
-				try {
-					deleteAnswerFromQuestion(manager);
-				} catch (DataNotCreatedYetException e) {
-					System.out.println(e.getMessage());
-				} catch (InvalidUserInputException e) {
-					System.out.println(e.getMessage());
-				} catch (InputMismatchException e) {
-					System.out.println("you were asked to enter a number");
-					input.nextLine();
-				}
-				break;
-
-			}
-
-			case 6: { // Create exam manually
 			try {
-				createExamManually(manager);
+				switch (selectedNumber) {
+				case 1: { // Present all exams (all Q&A)
+					PresentInfo(manager);
+					break;
+				}
+				case 2: { // Add Question (to the Exam and or data base)
+					addQuestion(manager);
+					break;
+				}
+
+				case 3: { // Update content of an existing question
+					UpdateContentOfQuestion(manager);
+					break;
+				}
+				
+				case 4: { // Update content of an existing answer
+					UpdateContentOfAnswer(manager);
+					break;
+				}
+
+				case 5: { // delete answer to existing question
+					deleteAnswerFromQuestion(manager);
+					break;
+				}
+
+				case 6: { // Create exam manually
+					createExamManually(manager);
+					break;
+				}
+
+				case 7: { // Create exam automatically
+					createAutomaticExam(manager);
+				}
+
+				}
 			} catch (DataNotCreatedYetException e) {
 				System.out.println(e.getMessage());
 			} catch (InvalidUserInputException e) {
@@ -137,45 +81,35 @@ public class Main {
 				System.out.println("Something went wrong, try again");
 				input.nextLine();
 			}
+		
 
-			break;
-			}
-
-			case 7: { // Create exam automatically
-				System.out.println("How many questions you want? (up to 20) ");
-				int numOfQ = input.nextInt();
-				//manager.generateAutomaticExam(numOfQ);
-				break;
-			}
-
-			}
-
-			System.out.println("Please Enter the number of the program you want to exam: \r\n"
-					+ "1 - Present all exams (all Q&A) \r\n" + "2 - Add Question to the Exam \r\n"
-					+ "3 - Update content of an existing question\r\n" + "4 - Update content of an existing answer \r\n"
-					+ "5 - Delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n"
-					+ "7 - Create exam automatically \r\n" + "8 - Exit");
-			selectedNumber = input.nextInt();
+		System.out.println("Please Enter the number of the program you want to exam: \r\n"
+				+ "1 - Present all exams (all Q&A) \r\n" + "2 - Add Question to the Exam \r\n"
+				+ "3 - Update content of an existing question\r\n" + "4 - Update content of an existing answer \r\n"
+				+ "5 - Delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n"
+				+ "7 - Create exam automatically \r\n" + "8 - Exit");
+		selectedNumber = input.nextInt();
 
 		}
 
-		System.out.println("\n \n");
-		System.out.println("Hope you enjoined the program !");
+	System.out.println("\n \n");System.out.println("Hope you enjoined the program !");
 
 	}
-	//present database / exams:
-	public static void PresentInfo(Manager manager) throws InvalidUserInputException, DataNotCreatedYetException
-	{
-		System.out.println("What would you like to view: \n(1 Repository Questions \n(2 Exams created");
+
+	// present database / exams:
+	public static void PresentInfo(Manager manager) throws InvalidUserInputException, DataNotCreatedYetException {
+		System.out.println("What would you like to view: \n1) Repository Questions \n2) Exams created");
 		int option = input.nextInt();
 		manager.checkValidRange(option, 1, 2);
-		if(option == 1) {
-		System.out.println(manager.printAllQuestions());
+		if (option == 1) {
+			System.out.println(manager.printAllQuestions());
+		} else {
+			System.out.println(manager.getListOfExams());
+			System.out.println("Please choose exam in list by number: ");
+			Exam selectedExam = manager.selectExam(input.nextInt());
+			System.out.println(selectedExam.toString());
 		}
-		else {
-			System.out.println(manager.printExams());
-		}
-		
+
 	}
 
 	// Create American Q
@@ -226,7 +160,7 @@ public class Main {
 		manager.checkValidRange(questionLocation, 1, 3);
 
 		if (questionLocation == 1 || questionLocation == 2) {
-			
+
 			System.out.println("Please select exam: ");
 			System.out.println(manager.getListOfExams());
 
@@ -265,8 +199,8 @@ public class Main {
 	}
 
 	// 3 Update content of an existing question
-	public static void UpdateContentOfQuestion(Manager manager)
-			throws DataNotCreatedYetException, InvalidUserInputException, DataIdenticalException,InputMismatchException {
+	public static void UpdateContentOfQuestion(Manager manager) throws DataNotCreatedYetException,
+			InvalidUserInputException, DataIdenticalException, InputMismatchException {
 		System.out.println(manager.getListOfQuestions());
 		System.out.println("Please select question: ");
 		Question selectedQuestion = manager.selectQuestion(input.nextInt());
@@ -278,8 +212,8 @@ public class Main {
 	}
 
 	// 4 Update content of an existing answer
-	public static void UpdateContentOfAnswer(Manager manager)
-			throws DataNotCreatedYetException, InvalidUserInputException, DataIdenticalException, InputMismatchException {
+	public static void UpdateContentOfAnswer(Manager manager) throws DataNotCreatedYetException,
+			InvalidUserInputException, DataIdenticalException, InputMismatchException {
 		System.out.println(manager.getListOfQuestions());
 		System.out.println("Please select question: ");
 		Question selectedQuestion = manager.selectQuestion(input.nextInt());
@@ -311,8 +245,8 @@ public class Main {
 	}
 
 	// 5 delete an answer to an existing question
-	public static void deleteAnswerFromQuestion(Manager manager) 
-			throws DataNotCreatedYetException, InvalidUserInputException,InputMismatchException {
+	public static void deleteAnswerFromQuestion(Manager manager)
+			throws DataNotCreatedYetException, InvalidUserInputException, InputMismatchException {
 		System.out.println(manager.getListOfQuestions());
 		System.out.println("Please select the question you want to delete its answer: ");
 		int questionPosition = input.nextInt();
@@ -360,12 +294,13 @@ public class Main {
 	}
 
 	// 6
-	public static void createExamManually(Manager manager)
-			throws InvalidUserInputException, DataNotCreatedYetException, DataIdenticalException,InputMismatchException {
+	public static void createExamManually(Manager manager) throws InvalidUserInputException, DataNotCreatedYetException,
+			DataIdenticalException, InputMismatchException {
 		System.out.println("pick a name for the exam");
 		String examName = input.next();
 
-		Exam newExaM = new Exam(examName);
+		Exam newExam = new Exam(examName);
+		manager.isExamNameExists(newExam);
 		boolean keepAsking = true;
 
 		while (keepAsking) {
@@ -379,15 +314,15 @@ public class Main {
 				int choice = input.nextInt();
 				manager.checkValidRange(choice, 1, 2);
 				if (choice == 1)
-					manager.addQuestionToExam(newExaM, createAmericanQ(manager));
+					manager.addQuestionToExam(newExam, createAmericanQ(manager));
 				else
-					manager.addQuestionToExam(newExaM, createOpenQ(manager));
+					manager.addQuestionToExam(newExam, createOpenQ(manager));
 
 			} else {
 				System.out.println("Please select question: ");
 				System.out.println(manager.getListOfQuestions());
 
-				manager.addQuestionToExam(newExaM, manager.selectQuestion(input.nextInt())); // add to current exam //
+				manager.addQuestionToExam(newExam, manager.selectQuestion(input.nextInt())); // add to current exam //
 																								// the current //
 																								// question if // checks
 
@@ -395,16 +330,21 @@ public class Main {
 			System.out.println("would you like to add another question? enter 'true' else 'false'");
 			keepAsking = input.nextBoolean();
 		}
-		manager.AddExamToArray(newExaM);		
+		manager.AddExamToArray(newExam);
 		System.out.println("Your new exam: \n");
-		System.out.println(newExaM.toString());
+		System.out.println(newExam.toString());
 
 	}
-	/*public static void createAutomaticExam(Manager manager) throws DataIdenticalException
-	{
-		System.out.println("how many questions would you like in your automatic exam?");
+
+	// 7
+	public static void createAutomaticExam(Manager manager) throws DataIdenticalException, InvalidUserInputException {
+		System.out.println("how many questions would you like in your automatic exam? maximum "
+				+ manager.getNumOfQ() + " questions");
 		int numOfQuestions = input.nextInt();
-		Exam newExam = manager.generateAutomaticExam(numOfQuestions);
-		manager.AddExamToArray(newExam);
-	}*/
+		manager.checkValidRange(numOfQuestions, 1, manager.getNumOfQ());
+		System.out.println("Insert exam name");
+		String examName = input.next();
+		manager.generateAutomaticExam(numOfQuestions, examName);
+		System.out.println("Exam created succesfully ! \n");
+	}
 }

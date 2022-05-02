@@ -67,23 +67,7 @@ public class Exam {
 		return true;
 	}
 
-	// update Q(A) content
-	/*// open Q answer
-	public boolean setOpenAnswer(String content, int qNum) {
-		if (isContentExist(content) == -1)
-			return false;
-		OpenQuestion temp = (OpenQuestion) allQuestions[qNum - 1];
-		return temp.updateAnswer(content);
-	}*/
-
-	/*/ American Q answer
-	public boolean setAmericanAnswer(String content, int qNum, int aNum) {
-		if (isContentExist(content) == -1)
-			return false;
-		AmericanQuestions temp = (AmericanQuestions) allQuestions[qNum - 1];
-		return temp.updateAnswer(content, aNum);
-	}*/
-
+	
 	// Delete Question (delete answer of open Q)
 	public boolean deleteQuestion(int qNum) {
 		if(qNum == numOfQuestions) {
@@ -141,8 +125,14 @@ public class Exam {
 			return sBuffer.toString();
 		}
 	
-	
-	
+	@Override
+	public boolean equals(Object object) {
+		if(!(object instanceof Exam))
+			return false;
+		
+		return ((Exam)object).getExamName().toLowerCase().equals(this.examName.toLowerCase());
+
+	}
 	
 	
 	
