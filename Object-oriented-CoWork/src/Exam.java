@@ -12,13 +12,7 @@ public class Exam {
 		examName = name;
 	}
 	
-	public Exam(Exam other)
-	{
-		this.examName = other.examName;
-		this.numOfQuestions = other.numOfQuestions;
-		this.allQuestions = other.allQuestions;
-	}
-
+	
 	// add Q
 	public boolean addQuestion(Question q) throws DataIdenticalException {
 		isQuestionExist(q);
@@ -31,8 +25,6 @@ public class Exam {
 
 		return true;
 	}
-	
-	
 
 	// Check if the question exists
 	public boolean isQuestionExist(Question q) throws DataIdenticalException {
@@ -52,42 +44,11 @@ public class Exam {
 
 		return -1;
 	}
-
-	// update Q content
-	public boolean updateQuestionContent(String content, int num) {
-
-		int contentExist = isContentExist(content);
-		if (contentExist != -1)
-			if (allQuestions[num - 1].getClass().getSimpleName()
-					.equals(allQuestions[contentExist].getClass().getSimpleName()))
-				return false;
-
-		allQuestions[num - 1].updateContent(content);
-
-		return true;
-	}
-
 	
-	// Delete Question (delete answer of open Q)
-	public boolean deleteQuestion(int qNum) {
-		if(qNum == numOfQuestions) {
-			allQuestions[qNum-1] = null;
-			numOfQuestions--;
-			return true;
-		}
-		for(int i = qNum-1; i < numOfQuestions-1; i++) {
-			allQuestions[i] = allQuestions[i+1];
-		}
-		allQuestions[numOfQuestions-1] = null;
-		return true;
-	}
-	
-		
 	//Get Question by 
 	public Question getQuestion(int num) {
 		return allQuestions[num-1];
 	}
-	
 	
 	// toString
 	public String toString() {// To String - print;
@@ -113,7 +74,17 @@ public class Exam {
 		return this.numOfQuestions;
 	}
 
-	
+	public void arrangeExamQuestions() {
+		for (int j=0; j<allQuestions.length; j++){
+            if (allQuestions[j] == null){
+                for (int k=j+1; k < allQuestions.length; k++){
+                    allQuestions[k-1] = allQuestions[k];
+                }
+                allQuestions[allQuestions.length-1] = null;
+            }
+        }
+		numOfQuestions--;
+	}
 	
 	//Print Exams Name and Num
 	public String getListOfQuestions() {//To String - print;

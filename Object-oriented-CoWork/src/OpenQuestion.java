@@ -8,24 +8,7 @@ public class OpenQuestion extends Question {
 		answer = answer.toLowerCase();
 		this.answer = new Answer(answer,true);
 	}
-	
-	
-	/*/open Q answer update - NOT USED!!!!!!!!1
-	public boolean updateAnswer(String newAnswer)
-	{
-		if(checkAnswer(newAnswer, this.answer))
-			return false;
-		return answer.setContent(newAnswer);
-	}*/
- 
-	//Check if answer provided is identical 
-	@Override
-	public boolean checkAnswer(String cont, Answer ans) {
-		return (cont.toLowerCase()).equals(answer.content.toLowerCase());
-	}
-	
-	
-	
+
 	
 	//print Answer
 	@Override

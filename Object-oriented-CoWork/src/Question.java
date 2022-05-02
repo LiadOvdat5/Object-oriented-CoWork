@@ -28,8 +28,7 @@ public abstract class Question {
 		return this.getClass().getSimpleName();
 	}
 	
-	//Check if answer provided is identical 
-	public abstract boolean checkAnswer(String cont, Answer ans);
+	
 	
 	
 

@@ -141,8 +141,8 @@ public class Manager {
 		for (int i = 0; i < numOfQ; i++) { 
 			Question question = questionsArray[(int) (Math.random() * (max - min + 1) + min)];
 			try {
-				if(question instanceof AmericanQuestions)
-					if(((AmericanQuestions)question).getNumOfAnswers() > 4 || (((AmericanQuestions)question).getMoreThanOneRight()))
+				if(question instanceof AmericanQuestion)
+					if(((AmericanQuestion)question).getNumOfAnswers() > 4 || (((AmericanQuestion)question).getMoreThanOneRight()))
 						throw new Exception();
 				addQuestionToExam(automaticExam, question);
 			} catch (Exception e) {
@@ -230,7 +230,7 @@ public class Manager {
 
 	}*/
 	public Question addAmericanQToRepository(String qContent, Answer[] ansArray) throws DataIdenticalException {
-		AmericanQuestions tempQ = new AmericanQuestions(qContent, ansArray);
+		AmericanQuestion tempQ = new AmericanQuestion(qContent, ansArray);
 		return checkIfCanAddQuestionAndAddIfPossible(tempQ);
 		
 	}
@@ -313,6 +313,9 @@ public class Manager {
 			this.numOfQuestions--;
 			
 		}
+		
+		arrangeExams();
+		
 		return true;
 	}
 	
@@ -324,7 +327,7 @@ public class Manager {
 	}
 	
 	//update answer for American Question 
-	public boolean updateAmericanQAnswer(Answer answer ,String aContent, boolean isRight, AmericanQuestions question) throws DataIdenticalException {
+	public boolean updateAmericanQAnswer(Answer answer ,String aContent, boolean isRight, AmericanQuestion question) throws DataIdenticalException {
 		Answer updatedAnswer = new Answer(aContent,isRight);
 		
 		if(question.isAnswerExists(updatedAnswer)){
@@ -346,12 +349,10 @@ public class Manager {
 		 return true;
 	}
 	
-	
-		
-	
-	// Delete Answer (delete answer of open Q)
-		
-		
+	public void arrangeExams() {
+		for(int i = 0; i < numOfExams; i++)
+			allExams[i].arrangeExamQuestions();
+	}
 		
 	// Select Exam
 	public 	Exam selectExam(int examNum) throws DataNotCreatedYetException, InvalidUserInputException {
@@ -375,14 +376,14 @@ public class Manager {
 	}	
 	
 	// Select American Answer
-	public Answer selectAmericanAnswerandReturnAnswer(AmericanQuestions question,int aNum) throws InvalidUserInputException {
+	public Answer selectAmericanAnswerandReturnAnswer(AmericanQuestion question,int aNum) throws InvalidUserInputException {
 		
 		checkAmericanAnswer(question, aNum);
 		return question.getAnswer(aNum);
 
 		}
 	
-	public void checkAmericanAnswer(AmericanQuestions question, int aNum)throws InvalidUserInputException{
+	public void checkAmericanAnswer(AmericanQuestion question, int aNum)throws InvalidUserInputException{
 	
 		if(aNum < 1 || aNum > question.getNumOfAnswers() - 2) 
 			throw new InvalidUserInputException("answer");
@@ -390,7 +391,7 @@ public class Manager {
 	}
 	
 	
-	public boolean deleteAmericanQAnswer(AmericanQuestions q , int qPosition, Answer answer,int aPosition)
+	public boolean deleteAmericanQAnswer(AmericanQuestion q , int qPosition, Answer answer,int aPosition)
 	{
 		if(q.getNumOfAnswers() == 3)
 		{

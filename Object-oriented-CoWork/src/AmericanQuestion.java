@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class AmericanQuestions extends Question {
+public class AmericanQuestion extends Question {
 
 	private static final int MAX_ANSWERS = 10;
 	private Answer[] allAnswers;
@@ -8,7 +8,7 @@ public class AmericanQuestions extends Question {
 	private Answer[] rightAnswers;
 	private int rightAnswerCounter;
 	
-	public AmericanQuestions(String content, Answer[] answers) {   //American Q C'tor
+	public AmericanQuestion(String content, Answer[] answers) {   //American Q C'tor
 		super(content);
 		this.allAnswers =  Arrays.copyOf(answers, MAX_ANSWERS);//answers array from MAIN
 		this.rightAnswers = new Answer[MAX_ANSWERS-2];
@@ -39,12 +39,6 @@ public class AmericanQuestions extends Question {
 		
 	}
 	
-	/*//American Q answer update - NOT USED!!!!!@
-	public boolean updateAnswer(String content, int aNum) {
-		if(checkAnswer(content, allAnswers[aNum-1]))
-			return false;
-		return allAnswers[aNum-1].setContent(content);
-	}*/
 	
 	//Decrease rightAnswerCounter
 	public void RemoveAndDecreaseRightAnswersCounter(Answer answer) {
@@ -92,7 +86,6 @@ public class AmericanQuestions extends Question {
 	}
 	
 	//Check if answer provided is identical 
-	@Override
 	public boolean checkAnswer(String cont, Answer ans) {
 		return (cont.toLowerCase()).equals(ans.getContent().toLowerCase());
 	}
@@ -126,12 +119,6 @@ public class AmericanQuestions extends Question {
 		return true;
 		}
 	
-		
-	
-	
-	
-
-
 	//Check if there is any true answer
 	public void checkForTrueAnswer() {
 		
@@ -163,10 +150,7 @@ public class AmericanQuestions extends Question {
 		
 	}
 	
-	
 
-	
-	
 	public String toString() {//To String - print;
 		StringBuffer sBuffer = new StringBuffer();
 		sBuffer.append(super.toString());

@@ -224,16 +224,16 @@ public class Main {
 			System.out.println("Please insert your new Answer content (make sure its a different one!):");
 			succeeded = manager.updateOpenQAnswer(((OpenQuestion) selectedQuestion).getAnswer(), input.next());
 		} else { // if question is American Q
-			System.out.println(((AmericanQuestions) selectedQuestion).printAnswers());
+			System.out.println(((AmericanQuestion) selectedQuestion).printAnswers());
 			System.out.println("Please select Answer: ");
-			Answer selectedAnswer = manager.selectAmericanAnswerandReturnAnswer((AmericanQuestions) selectedQuestion,
+			Answer selectedAnswer = manager.selectAmericanAnswerandReturnAnswer((AmericanQuestion) selectedQuestion,
 					input.nextInt());
 			System.out.println("Please insert your new Answer content (make sure its a different one!):");
 			String newAnswer = input.next();
 			System.out.println("true or false?");
 			Boolean trueOrFalse = input.nextBoolean();
 			succeeded = manager.updateAmericanQAnswer(selectedAnswer, newAnswer, trueOrFalse,
-					(AmericanQuestions) selectedQuestion);
+					(AmericanQuestion) selectedQuestion);
 		}
 
 		if (!succeeded)
@@ -265,8 +265,8 @@ public class Main {
 				return;
 			}
 
-		} else if (selectedQuestion instanceof AmericanQuestions) {
-			AmericanQuestions tempQ = (AmericanQuestions) selectedQuestion;
+		} else if (selectedQuestion instanceof AmericanQuestion) {
+			AmericanQuestion tempQ = (AmericanQuestion) selectedQuestion;
 			System.out.println(
 					"note that if you delete an answer and you are left with only 2 auto answers,then the question will be deleted also. \n"
 							+ "(1 continue \n (2 cancel");
