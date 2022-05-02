@@ -39,12 +39,12 @@ public class AmericanQuestions extends Question {
 		
 	}
 	
-	//American Q answer update
+	/*//American Q answer update - NOT USED!!!!!@
 	public boolean updateAnswer(String content, int aNum) {
 		if(checkAnswer(content, allAnswers[aNum-1]))
 			return false;
 		return allAnswers[aNum-1].setContent(content);
-	}
+	}*/
 	
 	//Decrease rightAnswerCounter
 	public void RemoveAndDecreaseRightAnswersCounter(Answer answer) {
@@ -95,6 +95,15 @@ public class AmericanQuestions extends Question {
 	@Override
 	public boolean checkAnswer(String cont, Answer ans) {
 		return (cont.toLowerCase()).equals(ans.getContent().toLowerCase());
+	}
+	
+	public boolean isAnswerExists(Answer a){
+		for(int i = 0; i < this.numOfAnswers; i++) {
+			if(checkAnswer(this.allAnswers[i].getContent(), a)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

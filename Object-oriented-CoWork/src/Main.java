@@ -53,7 +53,7 @@ public class Main {
 				} catch (InputMismatchException e) {
 					System.out.println("you were asked to enter a number");
 					input.nextLine();
-				} catch (QuestionIdenticalException e) {
+				} catch (DataIdenticalException e) {
 					System.out.println(e.getMessage());
 				}
 				catch (Exception e) {
@@ -71,7 +71,7 @@ public class Main {
 					System.out.println(e.getMessage());
 				} catch (InvalidUserInputException e) {
 					System.out.println(e.getMessage());
-				} catch (QuestionIdenticalException e) {
+				} catch (DataIdenticalException e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -83,7 +83,8 @@ public class Main {
 				} catch (DataNotCreatedYetException e) {
 					System.out.println(e.getMessage());
 				} catch (InvalidUserInputException e) {
-					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
+				} catch(DataIdenticalException e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -152,7 +153,7 @@ public class Main {
 
 	// Create American Q
 	public static Question createAmericanQ(Manager manager)
-			throws InvalidUserInputException, QuestionIdenticalException {
+			throws InvalidUserInputException, DataIdenticalException {
 		System.out.println("What is the American question, question content ? ");
 		String qContent = input.next();
 
@@ -177,7 +178,7 @@ public class Main {
 	}
 
 	// Create Open Q
-	public static Question createOpenQ(Manager manager) throws QuestionIdenticalException {
+	public static Question createOpenQ(Manager manager) throws DataIdenticalException {
 
 		System.out.println("What is the Open question, question content ? ");
 		String qContent = input.next();
@@ -193,7 +194,7 @@ public class Main {
 
 	// 2 Add Question (to the Exam and or data base)
 	public static void addQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException,
-			QuestionIdenticalException, InputMismatchException {
+			DataIdenticalException, InputMismatchException {
 
 		System.out.println("Would you like to: \n1) Add new question to Exam  \n2) Add Question from database"
 				+ " to exam \n3) Add question Only to Database  ");
@@ -240,7 +241,7 @@ public class Main {
 	}
 
 	// 3 Update content of an existing question
-	public static void UpdateContentOfQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException, QuestionIdenticalException {
+	public static void UpdateContentOfQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException, DataIdenticalException {
 		System.out.println(manager.getListOfQuestions());
 		System.out.println("Please select question: ");
 		Question selectedQuestion = manager.selectQuestion(input.nextInt());
@@ -252,16 +253,10 @@ public class Main {
 	}
 
 	// 4 Update content of an existing answer
-	public static void UpdateContentOfAnswer(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException {
+	public static void UpdateContentOfAnswer(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException, DataIdenticalException {
 		System.out.println(manager.getListOfQuestions());
 		System.out.println("Please select question: ");
 		Question selectedQuestion = manager.selectQuestion(input.nextInt());
-
-		
-		
-		
-		
-		
 		
 		boolean succeeded;
 		if (selectedQuestion instanceof OpenQuestion) { // if question is open Q
@@ -303,7 +298,7 @@ public class Main {
 			 if(choice == 1)
 			 {
 				 manager.deleteQuestion(questionPosition);
-				 System.out.println("Question deleted successfully");
+				 System.out.println("Question deleted successfully \n");
 			 }
 			 else {
 				 return;

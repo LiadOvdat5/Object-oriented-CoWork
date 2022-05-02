@@ -10,13 +10,13 @@ public class OpenQuestion extends Question {
 	}
 	
 	
-	//open Q answer update
+	/*/open Q answer update - NOT USED!!!!!!!!1
 	public boolean updateAnswer(String newAnswer)
 	{
 		if(checkAnswer(newAnswer, this.answer))
 			return false;
 		return answer.setContent(newAnswer);
-	}
+	}*/
  
 	//Check if answer provided is identical 
 	@Override

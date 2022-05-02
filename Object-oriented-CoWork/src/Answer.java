@@ -24,11 +24,14 @@ public class Answer {
 	public void setFalse() {
 		this.isRight = false;
 	}
-	
-	public boolean setContent(String cont) {
-		if(cont.equals(this.content))
-			return false;	
+	public void setContent(String cont) {
 		this.content = cont;
+	}
+	
+	public boolean checkContent(String cont) {
+		if(cont.toLowerCase().equals(this.content.toLowerCase())) {
+			return false;	
+		}
 		return true;
 		
 	}

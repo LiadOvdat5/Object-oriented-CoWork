@@ -30,13 +30,15 @@ public abstract class Question {
 	
 	//Check if answer provided is identical 
 	public abstract boolean checkAnswer(String cont, Answer ans);
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof Question))
 			return false;
 		Question tempQuestion = (Question)obj;
-		if(this.content.equals(tempQuestion.getContent()) && this.getQuestionType().equals(tempQuestion.getQuestionType()) ) {
+		if(this.content.toLowerCase().equals(tempQuestion.getContent().toLowerCase()) && this.getQuestionType().equals(tempQuestion.getQuestionType()) ) {
 			return true;
 		}
 		return false;

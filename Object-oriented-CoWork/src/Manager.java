@@ -47,7 +47,7 @@ public class Manager {
 
 	}
 
-	public void questionsRepository() throws QuestionIdenticalException {
+	public void questionsRepository() throws DataIdenticalException {
 		questionsArray = new Question[20];
 
 		Answer[] ansArray = new Answer[2]; // Answer Array
@@ -208,7 +208,7 @@ public class Manager {
 
 	// check if question Exists
 	public boolean isQuestionExist(Question q) {
-		for (int i = 0; i < this.numOfExams; i++)
+		for (int i = 0; i < this.numOfQuestions; i++)
 			if (this.questionsArray[i].equals(q))
 				return true;
 
@@ -216,7 +216,7 @@ public class Manager {
 
 	}
 
-	// add American Question to questions array
+	/*/ add American Question to questions array - WE DONT USE IN PROGRAM
 	public boolean addAmericanQToArray(String qContent, Answer[] ansArray) {
 		AmericanQuestions tempQ = new AmericanQuestions(qContent, ansArray);
 		if (isQuestionExist(tempQ))
@@ -228,23 +228,23 @@ public class Manager {
 		numOfQuestions++;
 		return true;
 
-	}
-	public Question addAmericanQToRepository(String qContent, Answer[] ansArray) throws QuestionIdenticalException {
+	}*/
+	public Question addAmericanQToRepository(String qContent, Answer[] ansArray) throws DataIdenticalException {
 		AmericanQuestions tempQ = new AmericanQuestions(qContent, ansArray);
 		return checkIfCanAddQuestionAndAddIfPossible(tempQ);
 		
 	}
 
 	// add American Question to questions array
-	public Question addOpenQToRepository(String qContent, String aContent) throws QuestionIdenticalException {
+	public Question addOpenQToRepository(String qContent, String aContent) throws DataIdenticalException {
 		OpenQuestion tempQ = new OpenQuestion(qContent, aContent);
 		return checkIfCanAddQuestionAndAddIfPossible(tempQ);
 		
 	}
-	public Question checkIfCanAddQuestionAndAddIfPossible(Question q) throws QuestionIdenticalException
+	public Question checkIfCanAddQuestionAndAddIfPossible(Question q) throws DataIdenticalException
 	{
 		if (isQuestionExist(q))
-			throw new QuestionIdenticalException(q.getQuestionType());
+			throw new DataIdenticalException("question");
 		if (this.numOfQuestions == this.questionsArray.length)
 			this.questionsArray = Arrays.copyOf(this.questionsArray, this.numOfQuestions * 2);
 
@@ -253,7 +253,7 @@ public class Manager {
 	}
 	
 
-	// add American Question to questions array
+	/*/ add American Question to questions array - WE DONT USE IN PROGRAM
 	public boolean addOpenQToArray(String qContent, String aContent) {
 		OpenQuestion tempQ = new OpenQuestion(qContent, aContent);
 		if (isQuestionExist(tempQ))
@@ -265,7 +265,7 @@ public class Manager {
 		numOfQuestions++;
 		return true;
 
-	}
+	}*/
 
 	// add question to exam
 	public boolean addQuestionToExam(Exam exam, Question question) {
@@ -275,19 +275,18 @@ public class Manager {
 	// Check if the content exists
 	public int isContentExist(String content) {
 		for (int i = 0; i < this.numOfQuestions; i++)
-			if (content.equals(this.questionsArray[i].getContent()))
+			if (content.toLowerCase().equals(this.questionsArray[i].getContent().toLowerCase()))
 				return i;
 
 		return -1;
 	}
 	
 	// update Q content
-	public boolean updateQuestionContent(String content, Question question) throws QuestionIdenticalException {
-		int contentExistLocation = isContentExist(content);
-		if (contentExistLocation != -1)
-			if (question.getQuestionType().equals(this.questionsArray[contentExistLocation].getQuestionType() ) )	
-				throw new QuestionIdenticalException(question.getQuestionType());
-
+	public boolean updateQuestionContent(String content, Question question) throws DataIdenticalException {
+		OpenQuestion updatedQuestion = new OpenQuestion(content,"");
+		if(isQuestionExist(updatedQuestion)) {
+			throw new DataIdenticalException("question");
+		}
 		return question.updateContent(content);
 	}
 	
@@ -321,11 +320,16 @@ public class Manager {
 
 	//update answer for Open Question 
 	public boolean updateOpenQAnswer(Answer answer ,String aContent) {
-		return answer.setContent(aContent);	
+		return answer.checkContent(aContent);	
 	}
 	
 	//update answer for American Question 
-	public boolean updateAmericanQAnswer(Answer answer ,String aContent, boolean isRight, AmericanQuestions question) {
+	public boolean updateAmericanQAnswer(Answer answer ,String aContent, boolean isRight, AmericanQuestions question) throws DataIdenticalException {
+		Answer updatedAnswer = new Answer(aContent,isRight);
+		
+		if(question.isAnswerExists(updatedAnswer)){
+			throw new DataIdenticalException("Answer");
+		}
 		
 		if(!isRight && answer.isRight) { //if new answer is false but original was right
 			question.RemoveAndDecreaseRightAnswersCounter(answer);
@@ -337,8 +341,12 @@ public class Manager {
 		} 
 		
 		question.checkForTrueAnswer();
-		return answer.setContent(aContent);
+		
+		 answer.setContent(aContent);
+		 return true;
 	}
+	
+	
 		
 	
 	// Delete Answer (delete answer of open Q)
@@ -376,7 +384,7 @@ public class Manager {
 	
 	public void checkAmericanAnswer(AmericanQuestions question, int aNum)throws InvalidUserInputException{
 	
-		if(aNum < 1 || aNum > question.getNumOfAnswers()) 
+		if(aNum < 1 || aNum > question.getNumOfAnswers() - 2) 
 			throw new InvalidUserInputException("answer");
 		
 	}
