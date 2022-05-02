@@ -101,19 +101,21 @@ public class AmericanQuestions extends Question {
 	
 	//Delete Answer American Question
 	public boolean deleteAmericanAnswer(Answer answer ,int aPosition) {
-		this.allAnswers[aPosition - 1] = null;
-		for(int i = aPosition - 1; i < this.numOfAnswers - 3; i++)
-		{
-			this.allAnswers[i] = this.allAnswers[i+1];
-		}
-		this.numOfAnswers--;
-		if(answer.getIsRight()) {
-		
+		if(answer.getIsRight()){
 			RemoveAndDecreaseRightAnswersCounter(answer);
 		}
 		checkForTrueAnswer();
+		this.allAnswers[aPosition - 1] = null;
+		for(int i = aPosition - 1; i < this.numOfAnswers - 1; i++)
+		{
+			this.allAnswers[i] = this.allAnswers[i+1];
+		}
+		
+		this.numOfAnswers--;
 		return true;
-	}
+		}
+	
+		
 	
 	
 	
