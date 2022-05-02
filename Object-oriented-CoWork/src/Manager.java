@@ -24,16 +24,16 @@ public class Manager {
 	}
 
 	// create Exam in blank space or increase the array by 2.
-	public void ExamSpace(String name) {
-		if (numOfExams == allExams.length)
-			allExams = Arrays.copyOf(allExams, numOfExams * 2);
-		allExams[numOfExams] = new Exam(name);
-		numOfExams++;
+	public void AddExamToArray(Exam exam) {
+		if (this.numOfExams == this.allExams.length)
+			this.allExams = Arrays.copyOf(this.allExams, this.numOfExams * 2);
+		this.allExams[this.numOfExams++] = new Exam(exam);
+		
 
 	}
 
-	// generate new Exam manually
-	public void generateExam(String nameOfExam, Question[] dataFromUser) { // (Scheme) EXAM > QUES ARRAY > QUES
+	/*/ generate new Exam manually
+	public void generateExam(Exam exam) throws DataIdenticalException { // (Scheme) EXAM > QUES ARRAY > QUES
 																			// (AMERICAN OR OPEN) > IF AMERICAN
 		// - ANS ARRAY
 		ExamSpace(nameOfExam); // Create Exam
@@ -45,7 +45,7 @@ public class Manager {
 
 		System.out.println(currentExam.toString());
 
-	}
+	}*/
 
 	public void questionsRepository() throws DataIdenticalException {
 		questionsArray = new Question[20];
@@ -145,10 +145,10 @@ public class Manager {
 
 	}
 
-	// generate automatic Exam
-	public void generateAutomaticExam(int numOfQ) {
-		ExamSpace("Auto Exam - General Knowledge"); // Create Exam
-		Exam currentExam = allExams[numOfExams - 1]; // pointer
+	/*/ generate automatic Exam
+	public Exam generateAutomaticExam(int numOfQ) throws DataIdenticalException {
+		
+		Exam currentExam  // pointer
 
 		int max = questionsArray.length - 1, min = 0;
 		for (int i = 0; i < numOfQ; i++) { // loop of Q
@@ -160,9 +160,9 @@ public class Manager {
 
 		}
 
-		System.out.println(currentExam.toString());
+		
 
-	}
+	}*/
 
 	// Print Exams Name and Num
 	public String getListOfExams() throws DataNotCreatedYetException {// To String - print;
@@ -268,7 +268,7 @@ public class Manager {
 	}*/
 
 	// add question to exam
-	public boolean addQuestionToExam(Exam exam, Question question) {
+	public boolean addQuestionToExam(Exam exam, Question question) throws DataIdenticalException {
 		return exam.addQuestion(question);
 	}
 
@@ -424,5 +424,16 @@ public class Manager {
 		return sBuffer.toString();
 	}
 
-
+	public String printExams()throws DataNotCreatedYetException 
+	{
+		String str = "";
+		if (this.numOfExams == 0) 
+			throw new DataNotCreatedYetException("exams");
+		
+		for(int i = 0; i < this.numOfExams; i++)
+		{
+			 str += this.allExams[i].toString();
+		}
+		return str;
+	}
 }

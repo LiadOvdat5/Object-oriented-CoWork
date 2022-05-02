@@ -11,11 +11,18 @@ public class Exam {
 		numOfQuestions = 0;
 		examName = name;
 	}
+	
+	public Exam(Exam other)
+	{
+		this.examName = other.examName;
+		this.numOfQuestions = other.numOfQuestions;
+		this.allQuestions = other.allQuestions;
+	}
 
 	// add Q
-	public boolean addQuestion(Question q) {
-		if (isQuestionExist(q))
-			return false;
+	public boolean addQuestion(Question q) throws DataIdenticalException {
+		isQuestionExist(q);
+			
 		if (numOfQuestions == allQuestions.length) {
 			allQuestions = Arrays.copyOf(allQuestions, numOfQuestions * 2);
 		}
@@ -24,13 +31,14 @@ public class Exam {
 
 		return true;
 	}
+	
+	
 
 	// Check if the question exists
-	public boolean isQuestionExist(Question q) {
+	public boolean isQuestionExist(Question q) throws DataIdenticalException {
 		for (int i = 0; i < numOfQuestions; i++)
-			if (q.getContent().equals(allQuestions[i].getContent()))
-				if (q.getClass().getSimpleName().equals(allQuestions[i].getClass().getSimpleName()))
-					return true;
+			if (q.equals(this.allQuestions[i])) {
+				throw new DataIdenticalException("question");			}
 
 		return false;
 
