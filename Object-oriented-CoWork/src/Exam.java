@@ -113,8 +113,10 @@ public class Exam {
 		return this.numOfQuestions;
 	}
 
+	
+	
 	//Print Exams Name and Num
-		public String getListOfQuestions() {//To String - print;
+	public String getListOfQuestions() {//To String - print;
 			StringBuffer sBuffer = new StringBuffer();
 			
 			sBuffer.append("There are " + this.numOfQuestions + " Questions: \n" );

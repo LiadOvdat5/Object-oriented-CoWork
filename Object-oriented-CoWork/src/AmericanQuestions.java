@@ -106,7 +106,9 @@ public class AmericanQuestions extends Question {
 		return false;
 	}
 	
-	
+	public boolean getMoreThanOneRight() {
+		return this.allAnswers[numOfAnswers-1].isRight;
+	}
 	
 	//Delete Answer American Question
 	public boolean deleteAmericanAnswer(Answer answer ,int aPosition) {

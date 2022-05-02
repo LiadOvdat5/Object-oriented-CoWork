@@ -141,6 +141,9 @@ public class Manager {
 		for (int i = 0; i < numOfQ; i++) { 
 			Question question = questionsArray[(int) (Math.random() * (max - min + 1) + min)];
 			try {
+				if(question instanceof AmericanQuestions)
+					if(((AmericanQuestions)question).getNumOfAnswers() > 4 || (((AmericanQuestions)question).getMoreThanOneRight()))
+						throw new Exception();
 				addQuestionToExam(automaticExam, question);
 			} catch (Exception e) {
 				i--;
