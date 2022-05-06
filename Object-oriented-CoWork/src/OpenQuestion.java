@@ -29,6 +29,17 @@ public class OpenQuestion extends Question {
 		
 		return sBuffer.toString();
 	}
+	
+	@Override
+	public String saveQuestion() {
+		return getContent();
+	}
+
+
+	@Override
+	public String saveAnswer() {
+		return answer.getContent();
+	}
 
 
 	

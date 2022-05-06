@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -152,6 +153,14 @@ public class Manager {
 		
 		AddExamToArray(automaticExam);
 		
+		
+	}
+	
+	
+	
+	public void saveExamToFile(Exam exam) throws FileNotFoundException
+	{
+		exam.saveExamDeatails();
 		
 	}
 

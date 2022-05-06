@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Currency;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -75,6 +76,8 @@ public class Main {
 			} catch (InputMismatchException e) {
 				System.out.println("you were asked to enter a number");
 				input.nextLine();
+			} catch (FileNotFoundException e) {
+				System.out.println("file not found");
 			} catch (DataIdenticalException e) {
 				System.out.println(e.getMessage());
 			} catch (Exception e) {
@@ -97,7 +100,7 @@ public class Main {
 	}
 
 	// present database / exams:
-	public static void PresentInfo(Manager manager) throws InvalidUserInputException, DataNotCreatedYetException {
+	public static void PresentInfo(Manager manager) throws InvalidUserInputException, DataNotCreatedYetException, FileNotFoundException {
 		System.out.println("What would you like to view: \n1) Repository Questions \n2) Exams created");
 		int option = input.nextInt();
 		manager.checkValidRange(option, 1, 2);
@@ -107,6 +110,7 @@ public class Main {
 			System.out.println(manager.getListOfExams());
 			System.out.println("Please choose exam in list by number: ");
 			Exam selectedExam = manager.selectExam(input.nextInt());
+			manager.saveExamToFile(selectedExam);
 			System.out.println(selectedExam.toString());
 		}
 

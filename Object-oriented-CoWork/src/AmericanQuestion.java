@@ -164,4 +164,25 @@ public class AmericanQuestion extends Question {
 		return sBuffer.toString();
 	}
 	
+	@Override
+	public String saveQuestion() {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(this.content + "\n");
+		for(int i = 0; i < this.numOfAnswers; i++) {
+			sBuffer.append( (i+1) + ")" + this.allAnswers[i].content + "\n");
+		}
+		return sBuffer.toString();
+	
+	}
+
+
+	@Override
+	public String saveAnswer() {
+		StringBuffer sBuffer = new StringBuffer();
+		for(int i = 0; i < this.numOfAnswers; i++) {
+			sBuffer.append( (i+1) + ")" + this.allAnswers[i].content + " | " + this.allAnswers[i].isRight + "\n");
+		}
+		return sBuffer.toString();
+	}
+	
 }

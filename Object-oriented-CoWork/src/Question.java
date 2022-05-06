@@ -28,7 +28,8 @@ public abstract class Question {
 		return this.getClass().getSimpleName();
 	}
 	
-	
+	public abstract String saveQuestion();
+	public abstract String saveAnswer();
 	
 	
 

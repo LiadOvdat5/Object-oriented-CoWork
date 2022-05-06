@@ -1,4 +1,10 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+  
 
 public class Exam {
 	 String examName;
@@ -9,7 +15,8 @@ public class Exam {
 	public Exam(String name) {
 		allQuestions = new Question[1];
 		numOfQuestions = 0;
-		examName = name;
+		examName = ("Exam: " + name + ".txt" /*+ new SimpleDateFormat("dd-MM-yyyy").format(new Date())*/ );
+		
 	}
 	
 	
@@ -54,7 +61,7 @@ public class Exam {
 	public String toString() {// To String - print;
 		StringBuffer sBuffer = new StringBuffer();
 
-		sBuffer.append("Exam " + this.examName + " has: " + this.numOfQuestions + " questions. \n");
+		sBuffer.append(this.examName + " has: " + this.numOfQuestions + " questions. \n");
 
 		sBuffer.append("Exam details: \n");
 		for (int i = 0; i < numOfQuestions; i++) {
@@ -107,7 +114,23 @@ public class Exam {
 
 	}
 	
-	
+	public void saveExamDeatails() throws FileNotFoundException
+	{
+		File questions = new File(this.examName);
+		File answers = new File(("Solution for " + this.examName +".txt"));
+		PrintWriter pwQuestions = new PrintWriter(questions);
+		PrintWriter pwAnswer = new PrintWriter(answers);
+		
+		for(int i = 0; i < numOfQuestions; i++) {
+			pwQuestions.println("Question number " + (i+1) + ": " + allQuestions[i].saveQuestion());
+			pwAnswer.println("Answer to question number " + (i+1) + ": " +allQuestions[i].saveAnswer());
+			
+		}
+		pwAnswer.close();
+		pwQuestions.close();
+		
+		
+	}
 	
 	
 }
