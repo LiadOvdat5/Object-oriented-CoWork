@@ -184,5 +184,26 @@ public class AmericanQuestion extends Question {
 		}
 		return sBuffer.toString();
 	}
+
+
+	
+	
+	
+
+
+	@Override
+	public int answerLength() {
+		int length = 0;
+		for(int i = 0; i < numOfAnswers; i++)
+			length += allAnswers[i].getContent().length();
+		return length;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

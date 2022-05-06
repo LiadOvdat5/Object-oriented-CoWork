@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Answer {
+public class Answer implements Serializable{
 
 	String content;
 	boolean isRight;
@@ -56,4 +57,6 @@ public class Answer {
 		
 		return sBuffer.toString();
 	}
+
+	
 }

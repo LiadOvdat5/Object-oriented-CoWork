@@ -1,4 +1,10 @@
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -8,7 +14,7 @@ import java.util.zip.CheckedInputStream;
 import javax.print.attribute.standard.DateTimeAtCreation;
 import javax.xml.transform.Templates;
 
-public class Manager {
+public class Manager implements Serializable{
 
 	Scanner scanner = new Scanner(System.in);
 
@@ -22,21 +28,33 @@ public class Manager {
 		this.allExams = new Exam[1];
 		this.numOfExams = 0;
 		this.numOfQuestions = 0;
+		questionsArray = new Question[20];
+		
 	}
 
+	public void inputDataFromBinary() throws FileNotFoundException, IOException, ClassNotFoundException {
+		ObjectInputStream inFile = new ObjectInputStream(new FileInputStream("questions.dat"));
+		questionsArray = (Question[]) inFile.readObject();
+		inFile.close();
+		for(int i = 0; i < questionsArray.length; i++) //because its at start we need to say how many questions we have
+			if(questionsArray[i] != null)
+				numOfQuestions++;
+	}
+	
 	// create Exam in blank space or increase the array by 2.
 	public void AddExamToArray(Exam exam) {
 		if (this.numOfExams == this.allExams.length)
 			this.allExams = Arrays.copyOf(this.allExams, this.numOfExams * 2);
 		this.allExams[this.numOfExams++] = exam;
 		
+		exam.sortQestionsByAnswersLength();
 
 	}
 
 	
 
 	public void questionsRepository() throws DataIdenticalException {
-		questionsArray = new Question[20];
+		
 
 		Answer[] ansArray = new Answer[2]; // Answer Array
 
@@ -225,19 +243,7 @@ public class Manager {
 
 		}
 
-	/*/ add American Question to questions array - WE DONT USE IN PROGRAM
-	public boolean addAmericanQToArray(String qContent, Answer[] ansArray) {
-		AmericanQuestions tempQ = new AmericanQuestions(qContent, ansArray);
-		if (isQuestionExist(tempQ))
-			return false;
-		if (numOfQuestions == questionsArray.length)
-			questionsArray = Arrays.copyOf(questionsArray, numOfQuestions * 2);
-
-		questionsArray[numOfQuestions] = tempQ;
-		numOfQuestions++;
-		return true;
-
-	}*/
+	
 	public Question addAmericanQToRepository(String qContent, Answer[] ansArray) throws DataIdenticalException {
 		AmericanQuestion tempQ = new AmericanQuestion(qContent, ansArray);
 		return checkIfCanAddQuestionAndAddIfPossible(tempQ);
@@ -262,19 +268,7 @@ public class Manager {
 	}
 	
 
-	/*/ add American Question to questions array - WE DONT USE IN PROGRAM
-	public boolean addOpenQToArray(String qContent, String aContent) {
-		OpenQuestion tempQ = new OpenQuestion(qContent, aContent);
-		if (isQuestionExist(tempQ))
-			return false;
-		if (numOfQuestions == questionsArray.length)
-			questionsArray = Arrays.copyOf(questionsArray, numOfQuestions * 2);
-
-		questionsArray[numOfQuestions] = tempQ;
-		numOfQuestions++;
-		return true;
-
-	}*/
+	
 
 	// add question to exam
 	public boolean addQuestionToExam(Exam exam, Question question) throws DataIdenticalException {
@@ -446,4 +440,11 @@ public class Manager {
 		}
 		return str;
 	}
+
+	public void exit() throws FileNotFoundException, IOException {
+		ObjectOutputStream outFile = new ObjectOutputStream(new FileOutputStream("questions.dat"));
+		outFile.writeObject(questionsArray);
+		outFile.close();
+	}
+
 }

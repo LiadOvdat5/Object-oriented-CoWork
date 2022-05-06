@@ -7,21 +7,22 @@ import java.util.Date;
   
 
 public class Exam {
-	 String examName;
+	String examName;
 	Question[] allQuestions;
 	int numOfQuestions;
+	
 
 	// C'tor for making exam without arguments.
 	public Exam(String name) {
 		allQuestions = new Question[1];
 		numOfQuestions = 0;
-		examName = ("Exam: " + name + ".txt" /*+ new SimpleDateFormat("dd-MM-yyyy").format(new Date())*/ );
+		examName = ("Exam- " + name + " " +  new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 		
 	}
 	
 	
 	// add Q
-	public boolean addQuestion(Question q) throws DataIdenticalException {
+ 	public boolean addQuestion(Question q) throws DataIdenticalException {
 		isQuestionExist(q);
 			
 		if (numOfQuestions == allQuestions.length) {
@@ -29,7 +30,9 @@ public class Exam {
 		}
 
 		allQuestions[numOfQuestions++] = q;
-
+		
+		
+		
 		return true;
 	}
 
@@ -116,10 +119,9 @@ public class Exam {
 	
 	public void saveExamDeatails() throws FileNotFoundException
 	{
-		File questions = new File(this.examName);
-		File answers = new File(("Solution for " + this.examName +".txt"));
-		PrintWriter pwQuestions = new PrintWriter(questions);
-		PrintWriter pwAnswer = new PrintWriter(answers);
+		
+		PrintWriter pwQuestions = new PrintWriter(examName + ".txt");
+		PrintWriter pwAnswer = new PrintWriter("Solution for " + examName +".txt");
 		
 		for(int i = 0; i < numOfQuestions; i++) {
 			pwQuestions.println("Question number " + (i+1) + ": " + allQuestions[i].saveQuestion());
@@ -130,6 +132,10 @@ public class Exam {
 		pwQuestions.close();
 		
 		
+	}
+	
+	public void sortQestionsByAnswersLength() {
+		Arrays.sort(allQuestions);
 	}
 	
 	

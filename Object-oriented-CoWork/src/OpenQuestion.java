@@ -42,6 +42,14 @@ public class OpenQuestion extends Question {
 	}
 
 
+
+
+	@Override
+	public int answerLength() {
+		return this.getAnswer().getContent().length();
+	}
+
+
 	
 
 

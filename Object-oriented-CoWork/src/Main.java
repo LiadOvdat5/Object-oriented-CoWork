@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Currency;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,10 +13,23 @@ public class Main {
 		input.useDelimiter(System.getProperty("line.separator"));
 
 		Manager manager = new Manager();
+		
+		
+		try {
+			manager.inputDataFromBinary();
+		} catch (FileNotFoundException e1) {
+			//No need in message because it will always pop in first time
+		} catch (IOException e1) {
+			// ---------------" ------------------------------
+		} catch (Exception e) {
+			// --------------" ---------------------
+		}
+		
+		
 		try {
 			manager.questionsRepository();
 		} catch (Exception e) {
-			System.out.println("Repository had some problem");
+			//No need in message because it will always pop when we have binary file
 		}
 
 		int selectedNumber;
@@ -67,6 +81,7 @@ public class Main {
 				case 7: { // Create exam automatically
 					createAutomaticExam(manager);
 				}
+				
 
 				}
 			} catch (DataNotCreatedYetException e) {
@@ -81,6 +96,7 @@ public class Main {
 			} catch (DataIdenticalException e) {
 				System.out.println(e.getMessage());
 			} catch (Exception e) {
+				e.getMessage();
 				System.out.println("Something went wrong, try again");
 				input.nextLine();
 			}
@@ -93,6 +109,14 @@ public class Main {
 				+ "7 - Create exam automatically \r\n" + "8 - Exit");
 		selectedNumber = input.nextInt();
 
+		}
+		
+		try {
+			manager.exit();
+		} catch (FileNotFoundException e) {
+			System.out.println("PROBLEM IN EXIT 1***************");
+		} catch (IOException e) {
+			System.out.println("PROBLEM IN EXIT 2***************");
 		}
 
 	System.out.println("\n \n");System.out.println("Hope you enjoined the program !");
