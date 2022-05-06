@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class Answer implements Serializable{
+public class Answer implements Serializable, Cloneable{
 
 	String content;
 	boolean isRight;

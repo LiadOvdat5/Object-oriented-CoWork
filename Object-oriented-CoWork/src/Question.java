@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class Question implements Serializable, Comparable<Question> {
+public abstract class Question implements Serializable, Comparable<Question>, Cloneable {
 
 	public static int serialNumberGenerator = 1;
 	protected String content;
@@ -34,6 +34,9 @@ public abstract class Question implements Serializable, Comparable<Question> {
 	public abstract int answerLength(); 
 	
 	public int compareTo(Question o) {
+		if(o == null)
+			return 1;
+		
 		if(this.answerLength() > o.answerLength())
 			return 1;
 		else if(this.answerLength() < o.answerLength())

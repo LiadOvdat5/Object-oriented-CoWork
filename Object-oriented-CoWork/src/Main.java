@@ -33,7 +33,7 @@ public class Main {
 		}
 
 		int selectedNumber;
-		final int EXIT = 8;
+		final int EXIT = 9;
 
 		System.out.println("Please Enter the number of the program you want to exam: \r\n"
 				+ "1 - Present database and exmas (all Q&A) \r\n" // V
@@ -42,7 +42,8 @@ public class Main {
 				+ "4 - Update content of an existing answer \r\n" // V
 				+ "5 - delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n" // V
 				+ "7 - Create exam automatically \r\n" // V
-				+ "8 - Exit");
+				+ "8 - Create exam duplicate \r\n" // V
+				+ "9 - Exit");
 
 		selectedNumber = input.nextInt();
 
@@ -80,6 +81,12 @@ public class Main {
 
 				case 7: { // Create exam automatically
 					createAutomaticExam(manager);
+					break;
+				}
+				
+				case 8: { // Create exam automatically
+					duplicateExam(manager);
+					break;
 				}
 				
 
@@ -95,18 +102,27 @@ public class Main {
 				System.out.println("file not found");
 			} catch (DataIdenticalException e) {
 				System.out.println(e.getMessage());
+			} catch (CloneNotSupportedException e) {
+				System.out.println("Not Cloneable");
+				input.nextLine();
+			
 			} catch (Exception e) {
-				e.getMessage();
+				System.out.println(e.getMessage()); 
 				System.out.println("Something went wrong, try again");
 				input.nextLine();
 			}
 		
+		
 
-		System.out.println("Please Enter the number of the program you want to exam: \r\n"
-				+ "1 - Present all exams (all Q&A) \r\n" + "2 - Add Question to the Exam \r\n"
-				+ "3 - Update content of an existing question\r\n" + "4 - Update content of an existing answer \r\n"
-				+ "5 - Delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n"
-				+ "7 - Create exam automatically \r\n" + "8 - Exit");
+			System.out.println("Please Enter the number of the program you want to exam: \r\n"
+					+ "1 - Present database and exmas (all Q&A) \r\n" // V
+					+ "2 - Add Question (to the Exam and or data base) \r\n" // V
+					+ "3 - Update content of an existing question\r\n" // V
+					+ "4 - Update content of an existing answer \r\n" // V
+					+ "5 - delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n" // V
+					+ "7 - Create exam automatically \r\n" // V
+					+ "8 - Create exam duplicate \r\n" // V
+					+ "9 - Exit");
 		selectedNumber = input.nextInt();
 
 		}
@@ -375,4 +391,19 @@ public class Main {
 		manager.generateAutomaticExam(numOfQuestions, examName);
 		System.out.println("Exam created succesfully ! \n");
 	}
+	
+	public static void duplicateExam(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException, CloneNotSupportedException {
+		System.out.println("Please select exam: ");
+		System.out.println(manager.getListOfExams());
+
+		Exam currentExam = manager.selectExam(input.nextInt()); // selectExam(manager);
+		
+		manager.cloneExam(currentExam);
+	}
+	
+	
+	
+	
+	
+	
 }

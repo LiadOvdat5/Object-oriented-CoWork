@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
   
 
-public class Exam {
+public class Exam implements Cloneable {
 	String examName;
 	Question[] allQuestions;
 	int numOfQuestions;
@@ -135,8 +135,14 @@ public class Exam {
 	}
 	
 	public void sortQestionsByAnswersLength() {
-		Arrays.sort(allQuestions);
+		Arrays.sort(allQuestions,0, numOfQuestions-1);
 	}
+	
+	public Exam clone() throws CloneNotSupportedException {	
+		return (Exam)super.clone();
+		
+	}
+	
 	
 	
 }

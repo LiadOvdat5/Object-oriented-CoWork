@@ -446,5 +446,25 @@ public class Manager implements Serializable{
 		outFile.writeObject(questionsArray);
 		outFile.close();
 	}
+	
+	public void cloneExam(Exam exam) throws CloneNotSupportedException {
+		
+		AddExamToArray(exam.clone());
+		allExams[numOfExams-1].examName = exam.getExamName() + "  (duplicate)";
+		
+	
+	}
+		
+	public void setOfAmericanAnswers() {
+		Set<Answer> americanAnswersSet = new Set<Answer>();
+		for(int i = 0; i < numOfQuestions; i++) {
+			if(questionsArray[i] instanceof AmericanQuestion) {
+				((AmericanQuestion)questionsArray[i]).addAnswersToSet(americanAnswersSet);
+			}
+		}
+	}
+		
+	
+	
 
 }

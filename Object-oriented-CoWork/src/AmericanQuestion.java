@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class AmericanQuestion extends Question {
+public class AmericanQuestion extends Question{
 
 	private static final int MAX_ANSWERS = 10;
 	private Answer[] allAnswers;
@@ -195,8 +195,15 @@ public class AmericanQuestion extends Question {
 	public int answerLength() {
 		int length = 0;
 		for(int i = 0; i < numOfAnswers; i++)
-			length += allAnswers[i].getContent().length();
+			if(allAnswers[i] != null)
+				length += allAnswers[i].getContent().length();
 		return length;
+	}
+
+
+	public void addAnswersToSet(Set<Answer> americanAnswersSet) {
+		for(int i = 0; i < this.numOfAnswers; i++)
+			americanAnswersSet.add(allAnswers[i]);
 	}
 	
 	
