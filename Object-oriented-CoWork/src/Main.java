@@ -5,11 +5,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.jar.Attributes.Name;
 import java.util.stream.IntStream;
-
+/*
 public class Main {
 	static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		
 		input.useDelimiter(System.getProperty("line.separator"));
 
 		Manager manager = new Manager();
@@ -33,7 +34,7 @@ public class Main {
 		}
 
 		int selectedNumber;
-		final int EXIT = 9;
+		final int EXIT = 10;
 
 		System.out.println("Please Enter the number of the program you want to exam: \r\n"
 				+ "1 - Present database and exmas (all Q&A) \r\n" // V
@@ -43,7 +44,8 @@ public class Main {
 				+ "5 - delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n" // V
 				+ "7 - Create exam automatically \r\n" // V
 				+ "8 - Create exam duplicate \r\n" // V
-				+ "9 - Exit");
+				+ "9 - create and show Set \r\n"
+				+ "10 - Exit \r\n");
 
 		selectedNumber = input.nextInt();
 
@@ -84,8 +86,13 @@ public class Main {
 					break;
 				}
 				
-				case 8: { // Create exam automatically
+				case 8: { // Create duplicate exam
 					duplicateExam(manager);
+					break;
+				}
+		
+				case 9: { // show Set data base
+					ShowSet(manager);
 					break;
 				}
 				
@@ -122,7 +129,8 @@ public class Main {
 					+ "5 - delete an answer to an existing question \r\n" + "6 - Create exam manually \r\n" // V
 					+ "7 - Create exam automatically \r\n" // V
 					+ "8 - Create exam duplicate \r\n" // V
-					+ "9 - Exit");
+					+ "9 - create and show Set \r\n"
+					+ "10 - Exit \r\n");
 		selectedNumber = input.nextInt();
 
 		}
@@ -401,9 +409,12 @@ public class Main {
 		manager.cloneExam(currentExam);
 	}
 	
-	
+	public static void ShowSet(Manager manager) throws Exception {
+		System.out.println(manager.setOfAmericanAnswers());
+	}
 	
 	
 	
 	
 }
+*/

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -13,40 +14,34 @@ import java.util.zip.CheckedInputStream;
 
 import javax.print.attribute.standard.DateTimeAtCreation;
 import javax.xml.transform.Templates;
-
+/*
 public class Manager implements Serializable{
 
 	Scanner scanner = new Scanner(System.in);
 
-	private Exam[] allExams;
-	private int numOfExams;
-	private Question[] questionsArray;
-	private int numOfQuestions;
+	private ArrayList <Exam> allExams;
+	private ArrayList <Question> questionsArray;
+
 
 	// C'tor of the manager
 	public Manager() {
-		this.allExams = new Exam[1];
-		this.numOfExams = 0;
-		this.numOfQuestions = 0;
-		questionsArray = new Question[20];
+		this.allExams = new ArrayList<Exam>();
+		this.questionsArray = new ArrayList<Question>();
 		
 	}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void inputDataFromBinary() throws FileNotFoundException, IOException, ClassNotFoundException {
 		ObjectInputStream inFile = new ObjectInputStream(new FileInputStream("questions.dat"));
-		questionsArray = (Question[]) inFile.readObject();
+		questionsArray = (ArrayList<Question>) inFile.readObject();
 		inFile.close();
-		for(int i = 0; i < questionsArray.length; i++) //because its at start we need to say how many questions we have
+		for(int i = 0; i < this.questionsArray.size(); i++) //because its at start we need to say how many questions we have
 			if(questionsArray[i] != null)
 				numOfQuestions++;
 	}
 	
 	// create Exam in blank space or increase the array by 2.
 	public void AddExamToArray(Exam exam) {
-		if (this.numOfExams == this.allExams.length)
-			this.allExams = Arrays.copyOf(this.allExams, this.numOfExams * 2);
-		this.allExams[this.numOfExams++] = exam;
-		
+		this.allExams.add(exam);
 		exam.sortQestionsByAnswersLength();
 
 	}
@@ -56,66 +51,66 @@ public class Manager implements Serializable{
 	public void questionsRepository() throws DataIdenticalException {
 		
 
-		Answer[] ansArray = new Answer[2]; // Answer Array
+		ArrayList<Answer> ansArray = new ArrayList<Answer>(2); // Answer Array
 
 		// 0-9 Q0
-		ansArray[0] = new Answer("Kabul", true);
-		ansArray[1] = new Answer("Nassau", false);
+		ansArray.set(0, new Answer("Kabul", true));
+		ansArray.set(1, new Answer("Nassau", false));
 
 		addAmericanQToRepository("What is the capital of Afghanistan", ansArray); // Insert new American Q
 
 		// 0-9 Q1
-		ansArray[0] = new Answer("Prague", false);
-		ansArray[1] = new Answer("Zagreb", true);
+		ansArray.set(0, new Answer("Prague", false));
+		ansArray.set(1, new Answer("Zagreb", true));
 
 		addAmericanQToRepository("What is the capital of Belarus", ansArray); // Insert new American Q
 
 		// 0-9 Q2
-		ansArray[0] = new Answer("vienna", false);
-		ansArray[1] = new Answer("Belmopan", false);
+		ansArray.set(0, new Answer("vienna", false));
+		ansArray.set(1, new Answer("Belmopan", false));
 
 		addAmericanQToRepository("What is the capital of Croatia", ansArray); // Insert new American Q
 
 		// 0-9 Q3
-		ansArray[0] = new Answer("Tallinn", true);
-		ansArray[1] = new Answer("Helsinki", false);
+		ansArray.set(0, new Answer("Tallinn", true));
+		ansArray.set(1, new Answer("Helsinki", false));
 
 		addAmericanQToRepository("What is the capital of Estonia", ansArray); // Insert new American Q
 
 		// 0-9 Q4
-		ansArray[0] = new Answer("Berlin", true);
-		ansArray[1] = new Answer("Munich", false);
+		ansArray.set(0, new Answer("Berlin", true));
+		ansArray.set(1, new Answer("Munich", false));
 
 		addAmericanQToRepository("What is the capital of Germany", ansArray); // Insert new American Q
 
 		// 0-9 Q5
-		ansArray[0] = new Answer("Copenhagen", true);
-		ansArray[1] = new Answer("Odense", false);
+		ansArray.set(0, new Answer("Copenhagen", true));
+		ansArray.set(1, new Answer("Odense", false));
 
 		addAmericanQToRepository("What is the capital of Denemark", ansArray); // Insert new American Q
 
 		// 0-9 Q6
-		ansArray[0] = new Answer("Stockholm", true);
-		ansArray[1] = new Answer("Dublin", false);
+		ansArray.set(0, new Answer("Stockholm", true));
+		ansArray.set(1, new Answer("Dublin", false));
 
 		addAmericanQToRepository("What is the capital of Sweden", ansArray); // Insert new American Q
 
 		// 0-9 Q7
-		ansArray[0] = new Answer("Lima", true);
-		ansArray[1] = new Answer("Asuncion", false);
+		ansArray.set(0, new Answer("Lima", true));
+		ansArray.set(1, new Answer("Asuncion", false));
 
 		addAmericanQToRepository("What is the capital of Peru", ansArray); // Insert new American Q
 
 		// 0-9 Q8
-		ansArray[0] = new Answer("Zurich", false);
-		ansArray[1] = new Answer("Geneve", false);
+		ansArray.set(0, new Answer("Zurich", false));
+		ansArray.set(1, new Answer("Geneve", false));
 
 		addAmericanQToRepository("What is the capital of Switzerland", ansArray); // Insert new
 																				// American Q
 
 		// 0-9 Q9
-		ansArray[0] = new Answer("Beijing", true);
-		ansArray[1] = new Answer("Hong Kong", false);
+		ansArray.set(0, new Answer("Beijing", true));
+		ansArray.set(1, new Answer("Hong Kong", false));
 
 		addAmericanQToRepository("What is the capital of China", ansArray); // Insert new American Q
 
@@ -156,9 +151,9 @@ public class Manager implements Serializable{
 		Exam automaticExam = new Exam(examName) ; // new exam
 		isExamNameExists(automaticExam);
 		
-		int max = questionsArray.length - 1, min = 0;
+		int max = questionsArray.size() - 1, min = 0;
 		for (int i = 0; i < numOfQ; i++) { 
-			Question question = questionsArray[(int) (Math.random() * (max - min + 1) + min)];
+			Question question = questionsArray.get((int) (Math.random() * (max - min + 1) + min));
 			try {
 				if(question instanceof AmericanQuestion)
 					if(((AmericanQuestion)question).getNumOfAnswers() > 4 || (((AmericanQuestion)question).getMoreThanOneRight()))
@@ -244,7 +239,14 @@ public class Manager implements Serializable{
 		}
 
 	
-	public Question addAmericanQToRepository(String qContent, Answer[] ansArray) throws DataIdenticalException {
+	public Question addAmericanQToRepository(String qContent, ArrayList<Answer> ansArray) throws DataIdenticalException {
+		for(int i = 0; i < ansArray.length; i++) {
+			for(int j = i+1; j < ansArray.length; j++) {
+				if(ansArray[i].equals((ansArray[j]))){
+					throw new DataIdenticalException("Answer");
+				}
+			}
+		}
 		AmericanQuestion tempQ = new AmericanQuestion(qContent, ansArray);
 		return checkIfCanAddQuestionAndAddIfPossible(tempQ);
 		
@@ -455,16 +457,21 @@ public class Manager implements Serializable{
 	
 	}
 		
-	public void setOfAmericanAnswers() {
+	public String setOfAmericanAnswers() throws Exception {
 		Set<Answer> americanAnswersSet = new Set<Answer>();
 		for(int i = 0; i < numOfQuestions; i++) {
 			if(questionsArray[i] instanceof AmericanQuestion) {
 				((AmericanQuestion)questionsArray[i]).addAnswersToSet(americanAnswersSet);
 			}
 		}
+		return americanAnswersSet.tosString();
+		
+	
 	}
 		
 	
 	
 
 }
+
+*/

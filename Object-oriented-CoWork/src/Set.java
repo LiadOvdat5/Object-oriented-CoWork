@@ -15,9 +15,9 @@ public class Set<T> {
 	
 	public String tosString() {
 		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append("[");
+		sBuffer.append("[ \n");
 		for(int i = 0; i < currentSize; i++)
-			sBuffer.append(arr[i]);
+			sBuffer.append(arr[i] + "\n");
 		sBuffer.append("]");
 		return sBuffer.toString();
 	}
@@ -30,11 +30,17 @@ public class Set<T> {
 		this.arr = Arrays.copyOf(arr, ENLARGE_FACTOR*arr.length);
 	}
 	
-	public void add(T newValue) {
+	public void add(T newValue) throws Exception {
+		if(!(newValue instanceof Answer)) {
+			throw new Exception("argument Not with the same type");
+		}
+		if(isExist(newValue)) {
+			return;
+		}
 		if(currentSize == arr.length)
 			enlarge();
-		arr[currentSize] = newValue;
-		currentSize++;
+		arr[currentSize++] = newValue;
+		
 	}
 	
 	public boolean isExist(T value) {

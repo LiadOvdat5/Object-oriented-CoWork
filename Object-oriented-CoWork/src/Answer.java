@@ -43,7 +43,7 @@ public class Answer implements Serializable, Cloneable{
 			return false;
 		}
 		Answer a = (Answer)obj;
-		if(this.content == a.getContent() && this.isRight ==a.getIsRight()) {
+		if(this.content.toLowerCase().equals(a.getContent().toLowerCase()) ) {
 			return true;
 			
 		}
