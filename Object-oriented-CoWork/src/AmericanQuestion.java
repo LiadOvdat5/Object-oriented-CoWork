@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import java.util.Iterator;
 
 public class AmericanQuestion extends Question{
 
@@ -17,7 +18,12 @@ public class AmericanQuestion extends Question{
 		this.allAnswers.addAll(answers); 
 		
 		
-		
+		Iterator <Answer> itr = allAnswers.iterator(); 
+		while(itr.hasNext()) {
+			if(itr.next().getIsRight()) {
+				this.rightAnswers.add(itr.next());
+			}
+		}
 		for(int i = 0; i < allAnswers.size(); i++) { //check number of right answers
 			if(answers.get(i).getIsRight()) {
 				this.rightAnswers.add(answers.get(i++)); // Right answers will be same answers from all answers array
