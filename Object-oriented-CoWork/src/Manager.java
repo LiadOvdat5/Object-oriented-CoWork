@@ -23,10 +23,9 @@ public class Manager implements Serializable {
 	private ArrayList<Question> questionsArray;
 
 	// C'tor of the manager
-	public Manager(){
+	public Manager() {
 		this.allExams = new ArrayList<Exam>();
 		this.questionsArray = new ArrayList<Question>();
-		
 
 	}
 
@@ -49,8 +48,8 @@ public class Manager implements Serializable {
 		ArrayList<Answer> ansArray = new ArrayList<Answer>(); // Answer Array
 
 		// 0-9 Q0
-		ansArray.set(0, new Answer("Kabul", true));
-		ansArray.set(1, new Answer("Nassau", false));
+		ansArray.add(new Answer("Kabul", true));
+		ansArray.add(new Answer("Nassau", false));
 
 		addAmericanQToRepository("What is the capital of Afghanistan", ansArray); // Insert new American Q
 
@@ -201,7 +200,7 @@ public class Manager implements Serializable {
 
 	// Get Exam
 	public Exam getExam(int numOfExam) {
-		return allExams.get(numOfExam-1);
+		return allExams.get(numOfExam - 1);
 	}
 
 	// check if question Exists
@@ -218,7 +217,8 @@ public class Manager implements Serializable {
 
 	}
 
-	public Question addAmericanQToRepository(String qContent, ArrayList<Answer> ansArray)throws DataIdenticalException,GeneralSystemException {
+	public Question addAmericanQToRepository(String qContent, ArrayList<Answer> ansArray)
+			throws DataIdenticalException, GeneralSystemException {
 		for (int i = 0; i < ansArray.size(); i++) // check if there is same answer in array
 			for (int j = i + 1; j < ansArray.size(); j++)
 				if (ansArray.get(i).equals(ansArray.get(j)))
@@ -239,7 +239,7 @@ public class Manager implements Serializable {
 	public Question checkIfCanAddQuestionAndAddIfPossible(Question q) throws DataIdenticalException {
 		if (isQuestionExist(q))
 			throw new DataIdenticalException("question");
-		
+
 		this.questionsArray.add(q);
 		return q;
 	}
@@ -251,7 +251,8 @@ public class Manager implements Serializable {
 
 	// Check if the content exists
 	public int isQuestionContentExist(String content) {
-		for (int i = 0; i < questionsArray.size(); i++) //can't use question.equals because we match only string content
+		for (int i = 0; i < questionsArray.size(); i++) // can't use question.equals because we match only string
+														// content
 			if (content.toLowerCase().equals(questionsArray.get(i).getContent().toLowerCase()))
 				return i;
 
@@ -259,21 +260,24 @@ public class Manager implements Serializable {
 	}
 
 	// update Q content
-	public boolean updateQuestionContent(String content, Question question) throws DataIdenticalException {
-		OpenQuestion updatedQuestion = new OpenQuestion(content, "");
-		if (isQuestionExist(updatedQuestion)) {
-			throw new DataIdenticalException("question");
-		}
+	public boolean updateQuestionContent(String content, Question question)
+			throws DataIdenticalException, GeneralSystemException {
+
+		int updateQuestion = isQuestionContentExist(content);
+		if (updateQuestion != -1)
+			if (question.getQuestionType().equals(questionsArray.get(updateQuestion).getQuestionType()))
+				throw new DataIdenticalException("question");
+
 		return question.updateContent(content);
 	}
 
 	// Get Question
 	public Question getQuestion(int num) {
-		return questionsArray.get(num-1);
+		return questionsArray.get(num - 1);
 	}
 
 	public boolean deleteQuestion(int position) {
-		questionsArray.remove(position-1);
+		questionsArray.remove(position - 1);
 		return true;
 	}
 
@@ -304,12 +308,6 @@ public class Manager implements Serializable {
 		answer.setContent(aContent);
 		return true;
 	}
-	/*
-	public void arrangeExams() {
-		for (Exam ex : allExams)
-			ex.arrangeExamQuestions();
-	}
-	*/
 
 	// Select Exam
 	public Exam selectExam(int examNum) throws DataNotCreatedYetException, InvalidUserInputException {
@@ -319,15 +317,15 @@ public class Manager implements Serializable {
 		if (examNum < 1 || examNum > allExams.size())
 			throw new InvalidUserInputException("Exams");
 
-		return allExams.get(examNum-1);
+		return allExams.get(examNum - 1);
 	}
 
 	// Select Question
 	public Question selectQuestion(int qNum) throws InvalidUserInputException {
-		if (qNum < 1 || qNum >  questionsArray.size())
+		if (qNum < 1 || qNum > questionsArray.size())
 			throw new InvalidUserInputException("question");
 
-		return questionsArray.get(qNum-1);
+		return questionsArray.get(qNum - 1);
 	}
 
 	// Select American Answer
@@ -363,19 +361,19 @@ public class Manager implements Serializable {
 	}
 
 	// to string
-	public String printAllQuestions()  {// To String - print;
+	public String printAllQuestions() {// To String - print;
 		StringBuffer sBuffer = new StringBuffer();
 		sBuffer.append("There are " + questionsArray.size() + " Questions: \n");
-		for(Question q: questionsArray) 
-			sBuffer.append((questionsArray.indexOf(q)+ 1) + ") " + q.toString() + "\n");
+		for (Question q : questionsArray)
+			sBuffer.append((questionsArray.indexOf(q) + 1) + ") " + q.toString() + "\n");
 		return sBuffer.toString();
 	}
 
 	public String printExams() throws DataNotCreatedYetException {
 		String str = "";
 		if (allExams.size() == 0)
-			throw new DataNotCreatedYetException("exams");	
-		for (Exam ex: allExams) 
+			throw new DataNotCreatedYetException("exams");
+		for (Exam ex : allExams)
 			str += ex.toString();
 		return str;
 	}
@@ -388,15 +386,15 @@ public class Manager implements Serializable {
 
 	public void cloneExam(Exam exam) throws CloneNotSupportedException {
 		AddExamToArray(exam.clone());
-		allExams.get(allExams.size()-1).setExamName( exam.getExamName() + "  (duplicate)");
+		allExams.get(allExams.size() - 1).setExamName(exam.getExamName() + "  (duplicate)");
 
 	}
 
 	public String setOfAmericanAnswers() throws Exception {
 		Set<Answer> americanAnswersSet = new Set<Answer>();
-		for (Question q:questionsArray) 
-			if (q instanceof AmericanQuestion) 
-				((AmericanQuestion)q).addAnswersToSet(americanAnswersSet);
+		for (Question q : questionsArray)
+			if (q instanceof AmericanQuestion)
+				((AmericanQuestion) q).addAnswersToSet(americanAnswersSet);
 		return americanAnswersSet.tosString();
 	}
 

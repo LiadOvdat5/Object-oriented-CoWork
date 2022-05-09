@@ -7,26 +7,31 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-  
 
 public class Exam implements Cloneable {
 	private String examName;
-	private ArrayList <Question> allQuestions;
-	
+	private ArrayList<Question> allQuestions;
 
 	// C'tor for making exam without arguments.
 	public Exam(String name) {
-		this.allQuestions  = new ArrayList<Question>();
-		examName = ("Exam- " + name + " " +  new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-		
+		this.allQuestions = new ArrayList<Question>();
+		examName = ("Exam- " + name + " " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+
 	}
+
+	// clone C'tor
+	public Exam(Exam exam) {
+		this.allQuestions = new ArrayList<Question>(exam.allQuestions);
+		examName = (exam.getExamName());
+
+	}
+
 	public void setExamName(String name) {
 		this.examName = name;
 	}
-	
-	
+
 	// add Q
- 	public boolean addQuestion(Question q) throws DataIdenticalException {
+	public boolean addQuestion(Question q) throws DataIdenticalException {
 		isQuestionExist(q);
 		this.allQuestions.add(q);
 		return true;
@@ -34,17 +39,16 @@ public class Exam implements Cloneable {
 
 	// Check if the question exists
 	public void isQuestionExist(Question q) throws DataIdenticalException {
-		if(this.allQuestions.contains(q)) {
-			throw new DataIdenticalException("question");	
+		if (this.allQuestions.contains(q)) {
+			throw new DataIdenticalException("question");
 		}
 		/*
-		for (int i = 0; i < numOfQuestions; i++)
-			if (q.equals(this.allQuestions[i])) {
-				throw new DataIdenticalException("question");			}
+		 * for (int i = 0; i < numOfQuestions; i++) if (q.equals(this.allQuestions[i]))
+		 * { throw new DataIdenticalException("question"); }
+		 * 
+		 * return false;
+		 */
 
-		return false;
-		*/
-		
 	}
 
 	// Check if the content exists
@@ -55,12 +59,12 @@ public class Exam implements Cloneable {
 
 		return -1;
 	}
-	
-	//Get Question by 
+
+	// Get Question by
 	public Question getQuestion(int num) {
-		return allQuestions.get(num -1);
+		return allQuestions.get(num - 1);
 	}
-	
+
 	// toString
 	public String toString() {// To String - print;
 		StringBuffer sBuffer = new StringBuffer();
@@ -79,73 +83,57 @@ public class Exam implements Cloneable {
 	public String getExamName() {
 		return this.examName;
 	}
-	
-	public int getNumOfQuestions()
-	{
+
+	public int getNumOfQuestions() {
 		return allQuestions.size();
 	}
-	/*
-	public void arrangeExamQuestions() {
-		for (int j=0; j<allQuestions.length; j++){
-            if (allQuestions[j] == null){
-                for (int k=j+1; k < allQuestions.length; k++){
-                    allQuestions[k-1] = allQuestions[k];
-                }
-                allQuestions[allQuestions.length-1] = null;
-            }
-        }
-		numOfQuestions--;
-	}
-	*/
-	
-	//Print Exams Name and Num
-	public String getListOfQuestions() {//To String - print;
-			StringBuffer sBuffer = new StringBuffer();
-			
-			sBuffer.append("There are " + this.allQuestions.size() + " Questions: \n" );
-			
-			for(int i = 0; i < this.allQuestions.size(); i++) {
-				sBuffer.append((i+1) + ") " + allQuestions.get(i).getContent() + "\n");
-			}
-			return sBuffer.toString();
+
+	// Print Exams Name and Num
+	public String getListOfQuestions() {// To String - print;
+		StringBuffer sBuffer = new StringBuffer();
+
+		sBuffer.append("There are " + this.allQuestions.size() + " Questions: \n");
+
+		for (int i = 0; i < this.allQuestions.size(); i++) {
+			sBuffer.append((i + 1) + ") " + allQuestions.get(i).getContent() + "\n");
 		}
-	
+		return sBuffer.toString();
+	}
+
 	@Override
 	public boolean equals(Object object) {
-		if(!(object instanceof Exam))
+		if (!(object instanceof Exam))
 			return false;
-		
-		return ((Exam)object).getExamName().toLowerCase().equals(this.examName.toLowerCase());
+
+		return ((Exam) object).getExamName().toLowerCase().equals(this.examName.toLowerCase());
 
 	}
-	
-	public void saveExamDeatails() throws FileNotFoundException
-	{
-		
+
+	public void saveExamDeatails() throws FileNotFoundException {
+
 		PrintWriter pwQuestions = new PrintWriter(examName + ".txt");
-		PrintWriter pwAnswer = new PrintWriter("Solution for " + examName +".txt");
-		
-		for(int i = 0; i < this.allQuestions.size(); i++) {
-			pwQuestions.println("Question number " + (i+1) + ": " + allQuestions.get(i).saveQuestion());
-			pwAnswer.println("Answer to question number " + (i+1) + ": " +allQuestions.get(i).saveAnswer());
-			
+		PrintWriter pwAnswer = new PrintWriter("Solution for " + examName + ".txt");
+
+		for (int i = 0; i < this.allQuestions.size(); i++) {
+			pwQuestions.println("Question number " + (i + 1) + ": " + allQuestions.get(i).saveQuestion());
+			pwAnswer.println("Answer to question number " + (i + 1) + ": " + allQuestions.get(i).saveAnswer());
+
 		}
 		pwAnswer.close();
 		pwQuestions.close();
-		
-		
+
 	}
-	
+
 	public void sortQestionsByAnswersLength() {
 		Collections.sort(this.allQuestions);
-		
+
 	}
-	
-	public Exam clone() throws CloneNotSupportedException {	
-		return (Exam)super.clone();
-		
+
+	public Exam clone() throws CloneNotSupportedException { // not in use
+		Exam tempExam = (Exam) super.clone();
+		tempExam.allQuestions = new ArrayList<Question>(this.allQuestions);
+		return tempExam;
+
 	}
-	
-	
-	
+
 }
