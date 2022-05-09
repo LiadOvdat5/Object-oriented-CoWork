@@ -23,9 +23,10 @@ public class Manager implements Serializable {
 	private ArrayList<Question> questionsArray;
 
 	// C'tor of the manager
-	public Manager() {
+	public Manager(){
 		this.allExams = new ArrayList<Exam>();
 		this.questionsArray = new ArrayList<Question>();
+		
 
 	}
 
@@ -45,7 +46,7 @@ public class Manager implements Serializable {
 
 	public void questionsRepository() throws GeneralSystemException {
 
-		ArrayList<Answer> ansArray = new ArrayList<Answer>(2); // Answer Array
+		ArrayList<Answer> ansArray = new ArrayList<Answer>(); // Answer Array
 
 		// 0-9 Q0
 		ansArray.set(0, new Answer("Kabul", true));
@@ -217,8 +218,7 @@ public class Manager implements Serializable {
 
 	}
 
-	public Question addAmericanQToRepository(String qContent, ArrayList<Answer> ansArray)
-			throws GeneralSystemException {
+	public Question addAmericanQToRepository(String qContent, ArrayList<Answer> ansArray)throws DataIdenticalException,GeneralSystemException {
 		for (int i = 0; i < ansArray.size(); i++) // check if there is same answer in array
 			for (int j = i + 1; j < ansArray.size(); j++)
 				if (ansArray.get(i).equals(ansArray.get(j)))
@@ -274,9 +274,6 @@ public class Manager implements Serializable {
 
 	public boolean deleteQuestion(int position) {
 		questionsArray.remove(position-1);
-
-		arrangeExams();
-
 		return true;
 	}
 
@@ -307,11 +304,12 @@ public class Manager implements Serializable {
 		answer.setContent(aContent);
 		return true;
 	}
-
+	/*
 	public void arrangeExams() {
 		for (Exam ex : allExams)
 			ex.arrangeExamQuestions();
 	}
+	*/
 
 	// Select Exam
 	public Exam selectExam(int examNum) throws DataNotCreatedYetException, InvalidUserInputException {
@@ -390,7 +388,7 @@ public class Manager implements Serializable {
 
 	public void cloneExam(Exam exam) throws CloneNotSupportedException {
 		AddExamToArray(exam.clone());
-		allExams.get(allExams.size()-1).examName = exam.getExamName() + "  (duplicate)";
+		allExams.get(allExams.size()-1).setExamName( exam.getExamName() + "  (duplicate)");
 
 	}
 

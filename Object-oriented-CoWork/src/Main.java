@@ -1,15 +1,13 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Currency;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.jar.Attributes.Name;
-import java.util.stream.IntStream;
-/*
+
 public class Main {
 	static Scanner input = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		
 		input.useDelimiter(System.getProperty("line.separator"));
 
@@ -165,7 +163,7 @@ public class Main {
 	}
 
 	// Create American Q
-	public static Question createAmericanQ(Manager manager) throws InvalidUserInputException, DataIdenticalException {
+	public static Question createAmericanQ(Manager manager) throws InvalidUserInputException, DataIdenticalException,GeneralSystemException {
 		System.out.println("What is the American question, question content ? ");
 		String qContent = input.next();
 
@@ -173,7 +171,7 @@ public class Main {
 		int numOfAnswers = input.nextInt();
 		manager.checkValidRange(numOfAnswers, 1, 8);
 
-		Answer[] ansArray = new Answer[numOfAnswers]; // create array of answers
+		ArrayList <Answer> ansArray = new ArrayList<Answer>(); // create array of answers
 
 		for (int j = 0; j < numOfAnswers; j++) { // loop of answers for American - array of answers
 			System.out.println("Answer num " + (j + 1) + " content:");
@@ -181,7 +179,7 @@ public class Main {
 			System.out.println("true or false");
 			Boolean trueOrFalse = input.nextBoolean();
 
-			ansArray[j] = new Answer(aContent, trueOrFalse);
+			ansArray.set(j,new Answer(aContent, trueOrFalse));
 
 		}
 
@@ -204,7 +202,7 @@ public class Main {
 
 	// 2 Add Question (to the Exam and or data base)
 	public static void addQuestion(Manager manager) throws DataNotCreatedYetException, InvalidUserInputException,
-			DataIdenticalException, InputMismatchException {
+			DataIdenticalException, InputMismatchException,GeneralSystemException {
 
 		System.out.println("Would you like to: \n1) Add new question to Exam  \n2) Add Question from database"
 				+ " to exam \n3) Add question Only to Database  ");
@@ -328,7 +326,6 @@ public class Main {
 			if (choice == 1) {
 				System.out.println(tempQ.printAnswers());
 				int currentAnswerPosition = input.nextInt();
-				manager.checkAmericanAnswer(tempQ, currentAnswerPosition);
 				Answer answer = manager.selectAmericanAnswerandReturnAnswer(tempQ, currentAnswerPosition);
 				Boolean deleted = manager.deleteAmericanQAnswer(tempQ, questionPosition, answer, currentAnswerPosition);
 				if (deleted) {
@@ -347,7 +344,7 @@ public class Main {
 
 	// 6
 	public static void createExamManually(Manager manager) throws InvalidUserInputException, DataNotCreatedYetException,
-			DataIdenticalException, InputMismatchException {
+			DataIdenticalException, InputMismatchException,GeneralSystemException{
 		System.out.println("pick a name for the exam");
 		String examName = input.next();
 
@@ -417,4 +414,4 @@ public class Main {
 	
 	
 }
-*/
+

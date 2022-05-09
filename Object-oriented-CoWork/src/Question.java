@@ -32,10 +32,8 @@ public abstract class Question implements Serializable, Comparable<Question>, Cl
 	public abstract String saveQuestion();
 	public abstract String saveAnswer();
 	public abstract int answerLength(); 
-	
+	@Override
 	public int compareTo(Question o) {
-		if(o == null)
-			return 1;
 		
 		if(this.answerLength() > o.answerLength())
 			return 1;

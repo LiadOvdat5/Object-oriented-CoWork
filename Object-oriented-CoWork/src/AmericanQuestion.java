@@ -24,12 +24,14 @@ public class AmericanQuestion extends Question{
 				this.rightAnswers.add(itr.next());
 			}
 		}
+		/*
 		for(int i = 0; i < allAnswers.size(); i++) { //check number of right answers
 			if(answers.get(i).getIsRight()) {
 				this.rightAnswers.add(answers.get(i++)); // Right answers will be same answers from all answers array
 				
 			}
 		}
+		*/
 		boolean moreThanOne = (rightAnswers.size() > 1);
 		boolean noneOf = (rightAnswers.size() == 0);
 		allAnswers.add(new Answer("None of the above is true", noneOf)); //initialize 2 auto answers
@@ -50,7 +52,8 @@ public class AmericanQuestion extends Question{
 	
 	//Decrease rightAnswerCounter
 	public void RemoveAndDecreaseRightAnswersCounter(Answer answer) {			
-			rightAnswers.removeIf(ans -> answer.equals(answer));
+			//rightAnswers.removeIf(ans -> ans.equals(answer));
+		this.rightAnswers.remove(answer);
 	}
 	
 	
@@ -103,6 +106,7 @@ public class AmericanQuestion extends Question{
 	
 	//Check if there is any true answer
 	public void checkForTrueAnswer() {
+		Iterator <Answer> itr = allAnswers.iterator(); 
 		
 		if(this.rightAnswers.size() == 0) {
 			this.allAnswers.get(allAnswers.size()-2).setRight(); //none of the answers is right
@@ -115,32 +119,46 @@ public class AmericanQuestion extends Question{
 		    for(int i = 0; i < this.allAnswers.size() - 1; i++){	 // all other answers are false
 				if(allAnswers.get(i).isRight) 
 					allAnswers.get(i).setFalse();
+				
 		    }
 		}
 		
 		if(this.rightAnswers.size() == 1) {
 		    allAnswers.get(allAnswers.size()-2).setFalse(); //none of the answers is false
-			allAnswers.get(allAnswers.size()).setFalse(); //more than one answer is false 
+			allAnswers.get(allAnswers.size() - 1).setFalse(); //more than one answer is false 
+			Answer setRightAnswer = this.rightAnswers.get(0);
+			allAnswers.get(allAnswers.indexOf(setRightAnswer)).setRight();
+				}
+			}
+			/*
 			for(int i = 0; i < allAnswers.size(); i++) { //Set the only right answer to right
 				if(this.allAnswers.get(i) != null) {
 					this.allAnswers.get(i).setRight();
 				}
 			}
-		}
-
+			*/
 		
-		
-	}
 	
 
 	public String toString() {//To String - print;
+		Iterator <Answer> itr = allAnswers.iterator(); 
 		StringBuffer sBuffer = new StringBuffer();
 		sBuffer.append(super.toString());
-		for(Answer ans: allAnswers)
-			sBuffer.append(ans.toString() + "\n");	
-		sBuffer.append("\n");
-		return sBuffer.toString();
+		while(itr.hasNext()) {
+			sBuffer.append(itr.next().toString() + "\n");	
+			sBuffer.append("\n");
+		}
+			return sBuffer.toString();
+			/*
+			for(Answer ans: allAnswers)
+				sBuffer.append(ans.toString() + "\n");	
+			sBuffer.append("\n");
+			return sBuffer.toString();
+			*/
 	}
+		
+		
+	
 	
 	@Override
 	public String saveQuestion() {
@@ -172,16 +190,28 @@ public class AmericanQuestion extends Question{
 	@Override
 	public int answerLength() {
 		int length = 0;
+		Iterator <Answer> itr = allAnswers.iterator(); 
+		while(itr.hasNext()) {
+			length += itr.next().getContent().length();
+		}
+		/*
 		for(int i = 0; i < this.allAnswers.size(); i++)
 			if(allAnswers.get(i) != null)
 				length += allAnswers.get(i).getContent().length();
+				*/
 		return length;
 	}
 
 
 	public void addAnswersToSet(Set<Answer> americanAnswersSet) throws Exception {
+		Iterator <Answer> itr = allAnswers.iterator(); 
+		while(itr.hasNext()) {
+			americanAnswersSet.add(itr.next());
+		}
+		/*
 		for(int i = 0; i < this.allAnswers.size(); i++)
 			americanAnswersSet.add(allAnswers.get(i));
+			*/
 	}
 	
 	
